@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
+import UserService from '../../Services/UserService';
+import * as alertify from 'alertifyjs';
+import "alertifyjs/build/css/alertify.css";
+import AlertifyService from '../AlertifyService';
 
 export default class UserSignupPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id:null,
             username: '',
+            email:'',
             password: '',
             repeatPassword: "",
             name: '',
@@ -18,13 +24,30 @@ export default class UserSignupPage extends Component {
         stateData[type] = event
         this.setState({ stateData });
     }
-    saveUser = (e) => {
-        console.log(this.state);
+    onClickSignUp = (e) => {
+        // browser form içeriğini bir yere göndermesini engeller.
+        // browserin bizim yerimize bir şey yapmasını engellemiş oluyoruz.
+        e.preventDefault(); 
+
+        UserService.post(this.state)
+        .then(res=>{
+             console.log(res.data);
+        })
+        .catch(error=> {
+            if (error.response) {
+                console.log(error.response.data.message);
+                AlertifyService.alert(error.response.data.message);
+            }
+            else if (error.request) 
+                console.log(error.request);
+            else 
+                console.log(error.message);
+        });
     }
     render() {
         return (
             <div className="col-lg-12">
-                <h5>Sign Up</h5>
+                <h5>User Sign Up</h5>
                 
                 <form >
                     <div className="form-group">
@@ -35,6 +58,15 @@ export default class UserSignupPage extends Component {
                             onChange={e => this.onChangeData("username", e.target.value)}
                             value={this.state.username}
                             placeholder="Enter Username" />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="exampleInputEmail1">Email</label>
+                        <input
+                            type="text" className="form-control"
+                            name="email"
+                            onChange={e => this.onChangeData("email", e.target.value)}
+                            value={this.state.email}
+                            placeholder="Enter Email" />
                     </div>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Password</label>
@@ -48,7 +80,7 @@ export default class UserSignupPage extends Component {
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Repeat Password</label>
                         <input
-                            type="text" className="form-control"
+                            type="password" className="form-control"
                             name="repeatPassword"
                             onChange={e => this.onChangeData("repeatPassword", e.target.value)}
                             value={this.state.repeatPassword}
@@ -72,7 +104,7 @@ export default class UserSignupPage extends Component {
                             value={this.state.surname}
                             placeholder="Enter Username" />
                     </div>
-                     <button className="btn btn-success" type="button" onClick={this.saveUser}>   Save   </button>
+                     <button className="btn btn-success" type="button" onClick={this.onClickSignUp}>   Save   </button>
                 </form>
             </div>
         )
