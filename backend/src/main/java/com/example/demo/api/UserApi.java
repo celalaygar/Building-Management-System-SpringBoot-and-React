@@ -1,6 +1,7 @@
 package com.example.demo.api;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,34 +25,30 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping(ApiPaths.UserCtrl.CTRL)
 @CrossOrigin
 public class UserApi {
-	private final UserService service  ;
-	
+	private final UserService service;
+
 	@GetMapping("/{id}")
-	public ResponseEntity<UserDto> getUser(@PathVariable Long id){
-		
+	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
+
 		return ResponseEntity.ok(service.getUser(id));
 	}
-	
-	
-	
+
 	@PostMapping
-	public ResponseEntity<UserDto> postUser(@RequestBody User user){
-		
-		return ResponseEntity.ok(service.save(user));
+	public ResponseEntity<?> postUser(@Validated @RequestBody UserDto dto) throws Exception {
+
+		return ResponseEntity.ok(service.save(dto));
 	}
-	
-	
-	
+
 	@PutMapping("/[id}")
-	public ResponseEntity<User> getUser(@PathVariable Long id,@RequestBody UserDto dto){
-		
+	public ResponseEntity<?> getUser(@PathVariable Long id, @RequestBody UserDto dto) {
+
 		return ResponseEntity.ok(null);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Boolean> deleteUser(@PathVariable Long id){
-		
+	public ResponseEntity<Boolean> deleteUser(@PathVariable Long id) {
+
 		return ResponseEntity.ok(service.deleteUser(id));
 	}
-	
+
 }

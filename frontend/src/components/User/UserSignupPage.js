@@ -14,37 +14,67 @@ export default class UserSignupPage extends Component {
             password: '',
             repeatPassword: "",
             name: '',
-            surname: ''
+            surname: '',
+            errors:{
+            }
         };
         this.onChangeData = this.onChangeData.bind(this);
     }
 
     onChangeData(type, event) {
         const stateData = this.state;
+        const errors = {...this.state.errors}
+        errors[type] = undefined;
         stateData[type] = event
-        this.setState({ stateData });
+        this.setState({ stateData,errors:errors });
     }
-    onClickSignUp = (e) => {
+    onClickSignUp = async (e) => {
         // browser form içeriğini bir yere göndermesini engeller.
         // browserin bizim yerimize bir şey yapmasını engellemiş oluyoruz.
         e.preventDefault(); 
-
-        UserService.post(this.state)
-        .then(res=>{
-             console.log(res.data);
-        })
-        .catch(error=> {
-            if (error.response) {
-                console.log(error.response.data.message);
-                AlertifyService.alert(error.response.data.message);
+        this.setState({errors:{} })
+        let data = this.state;
+        console.log(data)
+        try {
+            const response = await UserService.post(this.state);
+            if(response.data.body.validationErrors){ 
+                this.setState({errors:response.data.body.validationErrors})
+            }else{
+                console.log(response)
+                this.setState({ 
+                    username: '',
+                    email:'',
+                    password: '',
+                    repeatPassword: "",
+                    name: '',
+                    surname: ''
+                });
+                this.setState({errors:{} })
+                AlertifyService.successMessage("Kayıt işlemi başarılı")
             }
-            else if (error.request) 
-                console.log(error.request);
-            else 
-                console.log(error.message);
-        });
+        } catch (error) {
+            if(error.response)
+                this.setState({errors:error.response})
+        }
+        // .then(res=>{
+        //      console.log(res.data);
+        // })
+        // .catch(error=> {
+        //     if (error.response) {
+        //         //console.log(error.response.data.message);
+        //         console.log(error.response.data.message.body);
+        //         AlertifyService.alert(error.response.data.message);
+        //         this.setState({errors:error.response.data.message.headers.body.validationErrors})
+        //     }
+        //     else if (error.request) 
+        //         console.log(error.request);
+        //     else 
+        //         console.log(error.message);
+        // });
     }
     render() {
+        const {username,email,password} = this.state.errors;
+        //const {errorUsername, errorEmail, errorPassword} = errors;
         return (
             <div className="col-lg-12">
                 <h5>User Sign Up</h5>
@@ -53,29 +83,32 @@ export default class UserSignupPage extends Component {
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Username</label>
                         <input
-                            type="text" className="form-control"
+                            type="text" className={username ?  "form-control is-invalid" : "form-control"} 
                             name="username"
                             onChange={e => this.onChangeData("username", e.target.value)}
                             value={this.state.username}
-                            placeholder="Enter Username" />
+                            placeholder="Enter Username"  required/>
+                            <div className="invalid-feedback">{username}</div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Email</label>
                         <input
-                            type="text" className="form-control"
+                            type="text" className={email ?  "form-control is-invalid" : "form-control"} 
                             name="email"
                             onChange={e => this.onChangeData("email", e.target.value)}
                             value={this.state.email}
-                            placeholder="Enter Email" />
-                    </div>
+                            placeholder="Enter Email" required/>
+                            <div className="invalid-feedback">{email}</div>
+                    </div> 
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Password</label>
                         <input
-                            type="password" className="form-control"
+                            type="password" className={password ?  "form-control is-invalid" : "form-control"} 
                             name="password"
                             onChange={e => this.onChangeData("password", e.target.value)}
                             value={this.state.password}
-                            placeholder="Enter Password" />
+                            placeholder="Enter Password" required />
+                            <div className="invalid-feedback">{password}</div>
                     </div>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Repeat Password</label>
@@ -84,8 +117,9 @@ export default class UserSignupPage extends Component {
                             name="repeatPassword"
                             onChange={e => this.onChangeData("repeatPassword", e.target.value)}
                             value={this.state.repeatPassword}
-                            placeholder="Enter Username" />
+                            placeholder="Enter Username" required/>
                     </div>
+                    <div className="invalid-feedback"></div>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Name</label>
                         <input
