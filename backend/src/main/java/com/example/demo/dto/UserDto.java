@@ -25,6 +25,8 @@ public class UserDto {
 
 	private String password;
 	
+	private String repeatPassword;
+	
 	private Date bornDate;
 
 	public String getFullName() {

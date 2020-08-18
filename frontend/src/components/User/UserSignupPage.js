@@ -73,7 +73,7 @@ export default class UserSignupPage extends Component {
         // });
     }
     render() {
-        const {username,email,password} = this.state.errors;
+        const {username,email,password,repeatPassword} = this.state.errors;
         //const {errorUsername, errorEmail, errorPassword} = errors;
         return (
             <div className="col-lg-12">
@@ -113,11 +113,12 @@ export default class UserSignupPage extends Component {
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">Repeat Password</label>
                         <input
-                            type="password" className="form-control"
+                            type="password" className={repeatPassword ?  "form-control is-invalid" : "form-control"} 
                             name="repeatPassword"
                             onChange={e => this.onChangeData("repeatPassword", e.target.value)}
                             value={this.state.repeatPassword}
                             placeholder="Enter Username" required/>
+                            <div className="invalid-feedback">{repeatPassword}</div>
                     </div>
                     <div className="invalid-feedback"></div>
                     <div className="form-group">

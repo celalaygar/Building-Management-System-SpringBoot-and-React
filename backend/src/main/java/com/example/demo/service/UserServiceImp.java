@@ -33,7 +33,8 @@ public class UserServiceImp implements UserService {
 	public ResponseEntity<?> save(@Validated UserDto dto) {
 		if (dto.getEmail() == null || dto.getEmail().isEmpty()
 				|| dto.getUsername() == null || dto.getUsername().isEmpty()
-				|| dto.getPassword() == null || dto.getPassword().isEmpty()) {
+				|| dto.getPassword() == null || dto.getPassword().isEmpty()
+				|| dto.getRepeatPassword() == null || dto.getRepeatPassword().isEmpty()) {
 			HashMap<String, String> map = new HashMap<>();
 			if(dto.getEmail() == null || dto.getEmail().isEmpty()) {
 				map.put("email", "Email can not be empty");
@@ -47,7 +48,18 @@ public class UserServiceImp implements UserService {
 				map.put("password", "Password can not be empty");
 				logger.error("Password can not be empty or null ");
 			}
-			ApiError error = new ApiError(400, "Email and Username can not be empty or null", null);
+			if(dto.getRepeatPassword() == null || dto.getRepeatPassword().isEmpty()) {
+				map.put("repeatpassword", "Repeat Password  can not be empty");
+				logger.error("Repeat Password  can not be empty or null ");
+			}
+			ApiError error = new ApiError(400, "Null Pointer Problem", null);
+			error.setValidationErrors(map);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+		}
+		if(!dto.getPassword().equals(dto.getRepeatPassword())) {
+			HashMap<String, String> map = new HashMap<>();
+			map.put("repeatPassword", "Password and Repeat Password must be same.");
+			ApiError error = new ApiError(400, "Email, Username and Password can not be empty or null", null);
 			error.setValidationErrors(map);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 		}
