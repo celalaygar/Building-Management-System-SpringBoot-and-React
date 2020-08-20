@@ -8,13 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.UniqueElements;
-
-import com.sun.istack.NotNull;
+ 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,6 +36,8 @@ public class User {
 	
 	
 	@Column(name  = "uname",nullable = false,length = 200, unique = true)
+	@NotEmpty
+	@NotNull
 	private String username;
 	
 	@Column(name  = "name")
@@ -43,7 +47,10 @@ public class User {
 	private String surname;
 	
 	@Column(name  = "password")
+	@NotEmpty
 	@NotNull
+	@Size(min = 8,message = "Şifreniz en az 8 karakter olmalıdır.")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="Şifre en az 1 küçük harf 1 büyük harf ve 1 sayı içermelidir.")
 	private String password;
 	
 	@Column(name  = "real_password")
@@ -51,9 +58,15 @@ public class User {
 	
 	@Column(name  = "email",unique = true )
 	@NotEmpty
-	@Size(min = 10,max = 200, message = "Email adresi mevcuttur.")
+	@Size(min = 5,max = 200)
 	private String email;
-	
+
+	@Transient
+	@NotEmpty
+	@NotNull
+	@Size(min = 8,message = "Şifreniz en az 8 karakter olmalıdır.")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="Şifre en az 1 küçük harf 1 büyük harf ve 1 sayı içermelidir.")
+	private String repeatPassword;
 	
 	@Column(name  = "bornDate")
 	private Date bornDate;

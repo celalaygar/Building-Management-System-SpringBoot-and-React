@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import UserSignupPage from './components/User/UserSignupPage';
+import UserSignupPage from './pages/User/UserSignupPage';
 
 export default class App extends Component {
 
