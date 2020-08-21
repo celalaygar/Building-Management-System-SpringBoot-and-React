@@ -8,6 +8,9 @@ import com.example.demo.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findByUsername(String username);
+	
+	
 	@Query("select u from User u where u.id = :id and u.status = 1")
 	User findUserById(Long id);
 }
