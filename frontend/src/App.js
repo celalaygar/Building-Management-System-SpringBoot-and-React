@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import './App.css';
 import UserSignupPage from './pages/User/UserSignupPage';
+import UserLoginPage from './pages/User/UserLoginPage';
+import LanguageSelector from './components/LanguageSelector';
 
 export default class App extends Component {
 
@@ -8,7 +10,9 @@ export default class App extends Component {
     return (
       <div className="container" >
         <div className="row">
-          <UserSignupPage />
+          {/* <UserSignupPage /> */}
+          <UserLoginPage />
+          <LanguageSelector />
         </div>
       </div>
     )

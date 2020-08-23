@@ -26,7 +26,7 @@ import ApiService from '../../Services/ApiService';
     }
 
     onChangeData(type, event) {
-        const {t } = this.props;
+        const { t } = this.props;
 
         const stateData = this.state;
         stateData[type] = event
