@@ -51,8 +51,9 @@ public class User {
 	@Column(name  = "password")
 	@NotEmpty
 	@NotNull
-	@Size(min = 8,message = "Şifreniz en az 8 karakter olmalıdır.")
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="Şifre en az 1 küçük harf 1 büyük harf ve 1 sayı içermelidir.")
+	@Size(min = 8)
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="{message.username.pattern}")
+	//@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="Şifre en az 1 küçük harf 1 büyük harf ve 1 sayı içermelidir.")
 	private String password;
 	
 	@Column(name  = "real_password")
@@ -66,8 +67,8 @@ public class User {
 	@Transient
 	@NotEmpty
 	@NotNull
-	@Size(min = 8,message = "Şifreniz en az 8 karakter olmalıdır.")
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message="Şifre en az 1 küçük harf 1 büyük harf ve 1 sayı içermelidir.")
+	@Size(min = 8 )
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$",  message="{message.username.pattern}")
 	private String repeatPassword;
 	
 	@Column(name  = "bornDate")

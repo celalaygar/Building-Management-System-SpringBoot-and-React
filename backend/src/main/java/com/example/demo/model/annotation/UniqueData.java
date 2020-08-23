@@ -15,7 +15,7 @@ import javax.validation.Payload;
 public @interface UniqueData {
 
 
-	String message() default "Username must be unique.";
+	String message() default "{message.unique.data}";
 
 	Class<?>[] groups() default { };
 
