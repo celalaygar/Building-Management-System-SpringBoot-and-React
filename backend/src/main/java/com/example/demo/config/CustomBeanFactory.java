@@ -23,8 +23,8 @@ public class CustomBeanFactory {
 	    return LoggerFactory.getLogger(injectionPoint.getMethodParameter().getContainingClass());
 
 	}
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-	    return new BCryptPasswordEncoder();
-	}
+//	@Bean
+//	public PasswordEncoder passwordEncoder() {
+//	    return new BCryptPasswordEncoder();
+//	}
 }

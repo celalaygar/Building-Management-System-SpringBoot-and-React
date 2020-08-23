@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService {
 //		}
 		if(!user.getPassword().equals(user.getRepeatPassword())) {
 			HashMap<String, String> map = new HashMap<>();
-			map.put("repeatPassword", "Password and Repeat Password must be same.");
+			map.put("repeatPassword", "Passwords must be same.");
 			ApiError error = new ApiError(400, "Email, Username and Password can not be empty or null", null);
 			error.setValidationErrors(map);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
