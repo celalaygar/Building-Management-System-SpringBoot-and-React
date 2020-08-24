@@ -17,6 +17,8 @@ class UserLoginPage extends Component {
             }
         };
         this.onChangeData = this.onChangeData.bind(this);
+        this.onClickSignUp = this.onClickSignUp.bind(this);
+        
     }
     onChangeData(type, event) {
 
@@ -25,12 +27,34 @@ class UserLoginPage extends Component {
 
         this.setState({ stateData});
     }
-    // onchangeLanguage = lg => {
-    //     const { i18n } = this.props;
-    //     i18n.changeLanguage(lg);
-    //     ApiService.changeLanguage(lg);
-
-    // }
+    onClickSignUp = async (event) =>{
+        event.preventDefault();
+        const {username, password} = this.state;
+        const data = {
+            username,
+            password
+        };
+        try {
+            const response = await ApiService.login(data)
+            if(response){
+                console.log(response)
+                localStorage.setItem("username", response.data.username);
+                localStorage.setItem("jwttoken", response.data.jwttoken);
+            }
+        } catch (error) {
+            if (error.response) {
+                console.log(error.response)
+                if (error.response.data.validationErrors) {
+                    console.log(error.response.data.validationErrors);
+                    this.setState({ errors: error.response.data.validationErrors })
+                }
+            }
+            else if (error.request)
+                console.log(error.request);
+            else
+                console.log(error.message);
+        }
+    }
     render() {       
          const { username,  password } = this.state.errors;
 

@@ -55,7 +55,6 @@ import ApiService from '../../Services/ApiService';
         console.log(data)
         try {
             const response = await UserService.post(this.state);
-
             //to control that password and repeatPassword must be same
             if (response.data.body.validationErrors) {
                 this.setState({ errors: response.data.body.validationErrors })

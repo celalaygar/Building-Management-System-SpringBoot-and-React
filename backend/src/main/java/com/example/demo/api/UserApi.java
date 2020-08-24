@@ -22,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.config.ApiPaths;
 import com.example.demo.dto.UserDto;
 import com.example.demo.error.ApiError;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImp;
+import com.example.demo.util.ApiPaths;
 
 import lombok.RequiredArgsConstructor;
 
@@ -44,6 +44,11 @@ public class UserApi {
 		return ResponseEntity.ok(service.getUser(id));
 	}
 
+	@GetMapping("/hello")
+	public ResponseEntity<String> getHello( ) {
+
+		return ResponseEntity.ok("hello spring boot");
+	}
 	@PostMapping
 	public ResponseEntity<?> postUser(@Valid @RequestBody User dto)  {
 
@@ -62,17 +67,17 @@ public class UserApi {
 		return ResponseEntity.ok(service.deleteUser(id));
 	}
 	
-	@ExceptionHandler
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	public ApiError handleValidationException(MethodArgumentNotValidException ex) {
-		ApiError error = new ApiError(400, "Null Pointer Problem", null);
-		Map<String, String> validationErrors = new HashMap<>();
-		for (FieldError fieldError  : ex.getBindingResult().getFieldErrors()) {
-			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-		} 
-		error.setValidationErrors(validationErrors);
-		return error;
-	}
+//	@ExceptionHandler
+//	@ResponseStatus(HttpStatus.BAD_REQUEST)
+//	public ApiError handleValidationException(MethodArgumentNotValidException ex) {
+//		ApiError error = new ApiError(400, "Null Pointer Problem", null);
+//		Map<String, String> validationErrors = new HashMap<>();
+//		for (FieldError fieldError  : ex.getBindingResult().getFieldErrors()) {
+//			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
+//		} 
+//		error.setValidationErrors(validationErrors);
+//		return error;
+//	}
 	
 	
 }

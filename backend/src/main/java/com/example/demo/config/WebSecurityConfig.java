@@ -17,6 +17,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import com.example.demo.jwt.config.JwtAuthenticationEntryPoint;
+import com.example.demo.jwt.config.JwtRequestFilter;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -63,13 +66,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         .cors()
         .and()
         .csrf().disable()
-        .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
         .authorizeRequests()
-        .antMatchers(HttpMethod.POST,"/login").permitAll()
-        .anyRequest().authenticated()
+        .antMatchers(HttpMethod.POST,"/api/login").permitAll()
+        .antMatchers(HttpMethod.POST,"/api/user").permitAll()
+        .and()
+        .authorizeRequests().anyRequest().authenticated()
         .and()
         .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
         .and()

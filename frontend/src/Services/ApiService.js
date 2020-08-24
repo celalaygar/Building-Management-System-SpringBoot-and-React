@@ -11,6 +11,9 @@ class ApiService {
 
     delete(url) { return Axios.delete(API_BASE_URL + url); }
     
+    login(data) { return Axios.post(API_BASE_URL + "/login", data); }
+
+
     changeLanguage (lg){ Axios.defaults.headers["accept-language"] = lg; }
 }
 
