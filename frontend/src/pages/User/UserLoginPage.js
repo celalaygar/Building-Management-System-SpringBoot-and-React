@@ -3,7 +3,8 @@ import React, { Component } from 'react'
 import Input from '../../components/input';
 import { withTranslation } from 'react-i18next';
 import ApiService from '../../Services/ApiService';
-import AlertifyService from '../../Services/AlertifyService';
+// import AlertifyService from '../../Services/AlertifyService';
+// import LanguageSelector from '../../components/LanguageSelector';
 
 class UserLoginPage extends Component {
 
@@ -11,8 +12,9 @@ class UserLoginPage extends Component {
         super(props);
         this.state = {
             username: '',
-            email: '',
+            email: null,
             password: '',
+            error: null,
             errors: {
             }
         };
@@ -20,8 +22,10 @@ class UserLoginPage extends Component {
         this.onClickSignUp = this.onClickSignUp.bind(this);
         
     }
+    
     onChangeData(type, event) {
-
+        if(this.state.error)
+            this.setState({error:null})
         const stateData = this.state;
         stateData[type] = event
 
@@ -29,24 +33,26 @@ class UserLoginPage extends Component {
     }
     onClickSignUp = async (event) =>{
         event.preventDefault();
+        if(this.state.error)
+            this.setState({error:null})
         const {username, password} = this.state;
-        const data = {
-            username,
-            password
-        };
+        const data = {  username,  password };
         try {
             const response = await ApiService.login(data)
             if(response){
                 console.log(response)
                 localStorage.setItem("username", response.data.username);
                 localStorage.setItem("jwttoken", response.data.jwttoken);
+                this.setState({error:null})
+                //window.location.href = "/ndex";
+
             }
         } catch (error) {
             if (error.response) {
-                console.log(error.response)
-                if (error.response.data.validationErrors) {
-                    console.log(error.response.data.validationErrors);
-                    this.setState({ errors: error.response.data.validationErrors })
+                if(error.response.data.message){
+                    console.log(error.response)
+                    this.setState({error:error.response.data.message})
+
                 }
             }
             else if (error.request)
@@ -56,12 +62,12 @@ class UserLoginPage extends Component {
         }
     }
     render() {       
-         const { username,  password } = this.state.errors;
-
+        const { username,  password } = this.state.errors;
+        const btnEnable = this.state.username && this.state.password;
         const { t } = this.props;
         return (
             <div className="col-lg-12">
-                <h3>{t('Sign Up')}</h3>
+                <h3>{t('Login')}</h3>
                 <hr />
                 <p className="description-p" style={{ color: "red" }}>  ( * ) Zorunlu alanlar</p>
                 <form >
@@ -86,12 +92,17 @@ class UserLoginPage extends Component {
                     <button 
                         className="btn btn-primary " 
                         type="button" 
+                        disabled={!btnEnable}
                         onClick={this.onClickSignUp}>{t('Login')}</button>
                 </form>
+                <br/>
+                { this.state.error ? 
+                <div className="alert alert-danger" role="aler">
+                    {this.state.error}
+                </div>
+                : null
 
-                {/* <img src="https://www.countryflags.io/tr/flat/32.png" style={{ "cursor": "pointer" }} onClick={() => this.onchangeLanguage("tr")} alt="Turkısh Flag" />
-                <img src="https://www.countryflags.io/gb/flat/32.png" style={{ "cursor": "pointer" }} onClick={() => this.onchangeLanguage("en")} alt="England Flag" /> */}
-
+                }
             </div>
         )
     }

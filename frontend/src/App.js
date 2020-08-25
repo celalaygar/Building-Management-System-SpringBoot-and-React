@@ -2,7 +2,14 @@ import React, { Component } from 'react'
 import './App.css';
 import UserSignupPage from './pages/User/UserSignupPage';
 import UserLoginPage from './pages/User/UserLoginPage';
-import LanguageSelector from './components/LanguageSelector';
+import LanguageSelector from './components/LanguageSelector'; 
+import MainComponent from './pages/MainComponent';
+import { Route, BrowserRouter } from 'react-router-dom';
+import NavbarComponent from './pages/Navbar';
+ 
+
+
+
 
 export default class App extends Component {
 
@@ -10,9 +17,23 @@ export default class App extends Component {
     return (
       <div className="container" >
         <div className="row">
+          
+          <div className="col-sm-12">
+          <NavbarComponent />
+
+          </div>
+          
+        <BrowserRouter>
+          <Route exact path="/" component={UserLoginPage} />
+          <Route exact path="/signup" component={UserSignupPage} />
+          <Route exact path="/index" component={MainComponent} />
+        </BrowserRouter> 
+
+        <LanguageSelector />
+
           {/* <UserSignupPage /> */}
-          <UserLoginPage />
-          <LanguageSelector />
+          {/* <UserLoginPage />
+          <LanguageSelector /> */}
         </div>
       </div>
     )

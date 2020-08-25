@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import UserService from '../../Services/UserService';
-import * as alertify from 'alertifyjs';
 import "alertifyjs/build/css/alertify.css";
 import AlertifyService from '../../Services/AlertifyService';
 import Input from '../../components/input';
-import {withTranslation} from 'react-i18next';
-import ApiService from '../../Services/ApiService';
+import { withTranslation } from 'react-i18next';
+// import ApiService from '../../Services/ApiService';
+// import LanguageSelector from '../../components/LanguageSelector';
+// import * as alertify from 'alertifyjs';
 
 
- class UserSignupPage extends Component {
+class UserSignupPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,7 +39,7 @@ import ApiService from '../../Services/ApiService';
             if (type === 'password' && event !== this.state.repeatPassword) {
                 errors.repeatPassword = t('Password mismatch');
             } else if (type === 'repeatPassword' && event !== this.state.password) {
-                errors.repeatPassword =  t('Password mismatch');
+                errors.repeatPassword = t('Password mismatch');
             } else {
                 errors.repeatPassword = undefined;
             }
@@ -101,19 +102,19 @@ import ApiService from '../../Services/ApiService';
         //         console.log(error.message);
         // });
     }
-    onchangeLanguage = lg =>{
-        const {i18n } = this.props;
-        i18n.changeLanguage(lg);
-        ApiService.changeLanguage(lg);
-        
-    }
+    // onchangeLanguage = lg =>{
+    //     const {i18n } = this.props;
+    //     i18n.changeLanguage(lg);
+    //     ApiService.changeLanguage(lg);
+
+    // }
     render() {
         const { username, email, password, repeatPassword } = this.state.errors;
         //const {errorUsername, errorEmail, errorPassword} = errors;
-        const {t} = this.props;
+        const { t } = this.props;
         return (
             <div className="col-lg-12">
-                <h3>{ t('Sign Up') }</h3>
+                <h3>{t('Sign Up')}</h3>
                 <hr />
                 <p className="description-p" style={{ color: "red" }}>  ( * ) Zorunlu alanlar</p>
                 <form >
@@ -171,15 +172,13 @@ import ApiService from '../../Services/ApiService';
                         valueName={this.state.surname}
                         onChangeData={this.onChangeData}
                     />
-                    <button 
-                        className="btn btn-primary " 
-                        type="button" 
-                        disabled={repeatPassword !== undefined} 
+                    <button
+                        className="btn btn-primary "
+                        type="button"
+                        disabled={repeatPassword !== undefined}
                         onClick={this.onClickSignUp}>{t('Sign Up')}</button>
                 </form>
-                
-                <img src="https://www.countryflags.io/tr/flat/32.png" style={{"cursor":"pointer"}} onClick={()=>this.onchangeLanguage("tr")} alt="Turkısh Flag"/>
-                <img src="https://www.countryflags.io/gb/flat/32.png" style={{"cursor":"pointer"}} onClick={()=>this.onchangeLanguage("en")} alt="England Flag" />
+
             </div>
         )
     }
