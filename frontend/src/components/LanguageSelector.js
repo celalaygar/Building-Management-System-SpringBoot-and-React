@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 const LanguageSelector = (props) => {
 
 
-
     const onchangeLanguage = lg => {
         const { i18n } = props;
         i18n.changeLanguage(lg);

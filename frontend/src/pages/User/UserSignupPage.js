@@ -101,13 +101,7 @@ class UserSignupPage extends Component {
         //     else 
         //         console.log(error.message);
         // });
-    }
-    // onchangeLanguage = lg =>{
-    //     const {i18n } = this.props;
-    //     i18n.changeLanguage(lg);
-    //     ApiService.changeLanguage(lg);
-
-    // }
+    } 
     render() {
         const { username, email, password, repeatPassword } = this.state.errors;
         //const {errorUsername, errorEmail, errorPassword} = errors;

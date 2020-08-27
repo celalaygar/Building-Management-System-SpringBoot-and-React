@@ -33,9 +33,15 @@ class UserLoginPage extends Component {
     }
     onClickSignUp = async (event) =>{
         event.preventDefault();
-        if(this.state.error)
-            this.setState({error:null})
+        if(this.state.error){
+            this.setState({error:null});
+        }
+
+        
         const {username, password} = this.state;
+        const {onLoginSuccess} = this.props;
+        
+
         const data = {  username,  password };
         try {
             const response = await ApiService.login(data)
@@ -43,8 +49,12 @@ class UserLoginPage extends Component {
                 console.log(response)
                 localStorage.setItem("username", response.data.username);
                 localStorage.setItem("jwttoken", response.data.jwttoken);
+                localStorage.setItem("isLoggedIn", true);
                 this.setState({error:null})
-                //window.location.href = "/ndex";
+
+                const {push} = this.props.history;
+                push("/index");
+                onLoginSuccess( response.data.username, response.data.jwttoken)
 
             }
         } catch (error) {
@@ -52,7 +62,6 @@ class UserLoginPage extends Component {
                 if(error.response.data.message){
                     console.log(error.response)
                     this.setState({error:error.response.data.message})
-
                 }
             }
             else if (error.request)
