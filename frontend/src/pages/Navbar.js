@@ -17,9 +17,9 @@ class NavbarComponent extends Component {
     }
 
     render() {
-        const { t,  username, jwttoken, onLogoutSuccess } = this.props;
+        const { t, /* username, jwttoken,*/ onLogoutSuccess } = this.props;
 
-        let isLoggedIn = !localStorage.getItem("isLoggedIn");
+        //let isLoggedIn = !localStorage.getItem("isLoggedIn");
         let links = null;
         if (!localStorage.getItem("isLoggedIn")) {
             links = (

@@ -7,6 +7,8 @@ import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import NavbarComponent from './pages/Navbar';
 import UserDetailPage from './pages/User/UserDetailPage';
 import HomeComponent from './pages/HomeComponent';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
+import AuthenticationService from './Services/AuthenticationService';
 
 export default class App extends Component {
   constructor(props) {
@@ -20,19 +22,19 @@ export default class App extends Component {
     this.onLogoutSuccess = this.onLogoutSuccess.bind(this);
   }
 
-  onLoginSuccess(username, jwttoken) {
-    console.log(username + " " + jwttoken)
+  onLoginSuccess = (username, jwttoken) => {
+    //console.log(username + " " + jwttoken)
     this.setState({
       isLoggedin: localStorage.getItem("jwttoken") && localStorage.getItem("username") ? true : false,
       username: username,
       jwttoken: jwttoken
     });
   }
-  onLogoutSuccess() {
+  onLogoutSuccess = () => {
     localStorage.removeItem("jwttoken");
     localStorage.removeItem("username");
     localStorage.removeItem("isLoggedIn");
-    console.log(localStorage)
+    //console.log(localStorage)
     this.setState({
       isLoggedin: false,
       username: null,
@@ -45,8 +47,29 @@ export default class App extends Component {
     this.props.history.push('/login');
   }
   render() {
-    
+
     const { isLoggedin, username, jwttoken } = this.state;
+    let links = null;
+    if (!localStorage.getItem("isLoggedIn") && localStorage.getItem("jwttoken") === null ) {
+      links = (
+        <Switch>
+          <Route exact path="/login" component={(props) => <UserLoginPage {...props} onLoginSuccess={this.onLoginSuccess} />} /> : null
+          <Route path="/signup" component={UserSignupPage} /> : null
+          <Route exact path="/" component={(props) => <UserLoginPage {...props} onLoginSuccess={this.onLoginSuccess} />} />
+          <Redirect to="/" />
+        </Switch>
+      );
+
+    } 
+    if(AuthenticationService.isUserLoggedIn())  {
+      links = (
+        <Switch>
+          <AuthenticatedRoute path="/index" component={(props) => <HomeComponent {...props} onLoginSuccess={this.onLoginSuccess} />} />
+          <AuthenticatedRoute path="/user/:username" component={(props) => <UserDetailPage {...props} onLoginSuccess={this.onLoginSuccess} />} />
+          <Redirect to="/index" />
+        </Switch>
+      );
+    }
     return (
       <div className="container" >
         <div className="row">
@@ -60,20 +83,21 @@ export default class App extends Component {
               jwttoken={jwttoken}
               onLogoutSuccess={this.onLogoutSuccess}
             />
-            <Switch>
+            {links}
+            {/* <Switch>
               <Route exact path="/" component={(props) => <UserLoginPage {...props} onLoginSuccess={this.onLoginSuccess} />} />
               {
-                !localStorage.getItem("isLoggedIn")  ?
-                  <Route path="/login" component={(props) => <UserLoginPage {...props} onLoginSuccess={this.onLoginSuccess} />} /> : null
-              }  
+                (!localStorage.getItem("isLoggedIn") && localStorage.getItem("jwttoken") === null) ?
+                  <Route exact path="/login" component={(props) => <UserLoginPage {...props} onLoginSuccess={this.onLoginSuccess} />} /> : null
+              }
               {
-                !localStorage.getItem("isLoggedIn")  ?
+                (!localStorage.getItem("isLoggedIn") && localStorage.getItem("jwttoken") === null) ?
                   <Route path="/signup" component={UserSignupPage} /> : null
               }
-              <Route path="/index" component={(props) => <HomeComponent {...props} onLoginSuccess={this.onLoginSuccess} />} />
-              <Route path="/user/:username" component={(props) => <UserDetailPage {...props} onLoginSuccess={this.onLoginSuccess} />} />
-              <Redirect to="/" />
-            </Switch>
+              <AuthenticatedRoute path="/index" component={(props) => <HomeComponent {...props} onLoginSuccess={this.onLoginSuccess} />} />
+              <AuthenticatedRoute path="/user/:username" component={(props) => <UserDetailPage {...props} onLoginSuccess={this.onLoginSuccess} />} />
+              <Redirect to="/index" />
+            </Switch> */}
           </BrowserRouter>
 
           <LanguageSelector />

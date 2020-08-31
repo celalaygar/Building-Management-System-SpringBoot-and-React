@@ -1,11 +1,10 @@
-import React, { Component } from 'react'
-import HomeComponent from '../HomeComponent'
+import React, { Component } from 'react' 
 import { Redirect } from 'react-router-dom'
 import ProfileCard from '../../components/ProfileCard'
 
 export default class UserDetailPage extends Component {
     render() { 
-        console.log(localStorage.getItem("isLoggedIn"))
+        //console.log(localStorage.getItem("isLoggedIn"))
         if( !localStorage.getItem("isLoggedIn"))
             return <Redirect to="/" />
         if(this.props.match.params.username !== localStorage.getItem("username"))

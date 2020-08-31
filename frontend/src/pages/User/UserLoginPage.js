@@ -46,7 +46,7 @@ class UserLoginPage extends Component {
         try {
             const response = await ApiService.login(data)
             if(response){
-                console.log(response)
+                //console.log(response)
                 localStorage.setItem("username", response.data.username);
                 localStorage.setItem("jwttoken", response.data.jwttoken);
                 localStorage.setItem("isLoggedIn", true);
@@ -106,7 +106,7 @@ class UserLoginPage extends Component {
                 </form>
                 <br/>
                 { this.state.error ? 
-                <div className="alert alert-danger" role="aler">
+                <div className="alert alert-danger" role="alert">
                     {this.state.error}
                 </div>
                 : null
