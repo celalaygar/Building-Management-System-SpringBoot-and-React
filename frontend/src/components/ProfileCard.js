@@ -13,6 +13,7 @@ const ProfileCard = props =>  {
             image: store.image
         };
     });
+    console.log(props.currentUser)
     return (
         <div>
             <div className="card"   

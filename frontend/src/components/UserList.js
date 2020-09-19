@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import UserService from '../Services/UserService';
+import UserListItem from './UserListItem';
 
 class UserList extends Component {
 
@@ -22,7 +23,7 @@ class UserList extends Component {
         // console.log(res.data)
         UserService.getUsers('/users' ).then(res => {
             console.log(res.data);
-            this.setState({ users: res.data });
+            this.setState({ users: res.data.content });
         });
     }
     onDeleteUser = (index)=>{
@@ -39,10 +40,11 @@ class UserList extends Component {
                 <h5 className="card-header">{t('Users')}</h5>
                 <div className="list-group-flush">
                     {users.map((user,index) => 
-                        <div 
-                        className="list-group-item list-group-item-action"
+                        <UserListItem
                             key={user.username} 
-                        >{index} : {user.username} </div>
+                            user={user} 
+                            index={index} 
+                        />
                                 )
 
                     }

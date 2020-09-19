@@ -6,7 +6,6 @@ import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { /*loginAction,*/ loginHandler } from './../../redux/AuthenticationAction';
-import UserService from '../../Services/UserService';
 
 class UserLoginPage extends Component {
     constructor(props) {
