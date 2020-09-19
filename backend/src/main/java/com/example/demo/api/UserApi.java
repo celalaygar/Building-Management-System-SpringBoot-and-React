@@ -1,9 +1,13 @@
 package com.example.demo.api;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,20 +43,22 @@ import lombok.RequiredArgsConstructor;
 public class UserApi {
 	private final UserService service;
 
+	//localhost:8501/api/user/users?page=1&size=4
+	@GetMapping("/users")
+	public ResponseEntity<Page<UserDto>> getAll(Pageable page) {
+		return ResponseEntity.ok(service.getAll(page));
+	}
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-
 		return ResponseEntity.ok(service.getUser(id));
 	}
 
 	@GetMapping("/hello")
 	public ResponseEntity<String> getHello( ) {
-
 		return ResponseEntity.ok("hello spring boot");
 	}
 	@PostMapping
 	public ResponseEntity<?> postUser(@Valid @RequestBody User dto)  {
-
 		return ResponseEntity.ok(service.save(dto));
 	}
 

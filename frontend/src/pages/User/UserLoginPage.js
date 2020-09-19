@@ -1,13 +1,14 @@
-
 import React, { Component } from 'react'
 import Input from '../../components/input';
 import { withTranslation } from 'react-i18next';
-import ApiService from '../../Services/ApiService';
 // import AlertifyService from '../../Services/AlertifyService';
 // import LanguageSelector from '../../components/LanguageSelector';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { /*loginAction,*/ loginHandler } from './../../redux/AuthenticationAction';
+import UserService from '../../Services/UserService';
 
 class UserLoginPage extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -18,50 +19,36 @@ class UserLoginPage extends Component {
             errors: {
             }
         };
-        this.onChangeData = this.onChangeData.bind(this);
-        this.onClickSignUp = this.onClickSignUp.bind(this);
-        
+        this.onClickLogin = this.onClickLogin.bind(this);
     }
-    
-    onChangeData(type, event) {
-        if(this.state.error)
-            this.setState({error:null})
+    componentDidMount(){
+
+    }
+    onChangeData = (type, event) => {
+        if (this.state.error)
+            this.setState({ error: null })
         const stateData = this.state;
         stateData[type] = event
 
-        this.setState({ stateData});
+        this.setState({ stateData });
     }
-    onClickSignUp = async (event) =>{
+    onClickLogin = async (event) => {
         event.preventDefault();
-        if(this.state.error){
-            this.setState({error:null});
+        if (this.state.error) {
+            this.setState({ error: null });
         }
-
+        const { dispatch, history } = this.props;
+        const { username, password } = this.state;
+        const creds = { username, password };
         
-        const {username, password} = this.state;
-        const {onLoginSuccess} = this.props;
-        
-
-        const data = {  username,  password };
         try {
-            const response = await ApiService.login(data)
-            if(response){
-                //console.log(response)
-                localStorage.setItem("username", response.data.username);
-                localStorage.setItem("jwttoken", response.data.jwttoken);
-                localStorage.setItem("isLoggedIn", true);
-                this.setState({error:null})
-
-                const {push} = this.props.history;
-                push("/index");
-                onLoginSuccess( response.data.username, response.data.jwttoken)
-
-            }
+            await dispatch(loginHandler(creds));
+            history.push("/index");
         } catch (error) {
             if (error.response) {
-                if(error.response.data.message){
+                if (error.response.data.message) {
                     console.log(error.response)
-                    this.setState({error:error.response.data.message})
+                    this.setState({ error: error.response.data.message })
                 }
             }
             else if (error.request)
@@ -70,50 +57,63 @@ class UserLoginPage extends Component {
                 console.log(error.message);
         }
     }
-    render() {       
-        const { username,  password } = this.state.errors;
+    render() {
+        const { username, password } = this.state.errors;
         const btnEnable = this.state.username && this.state.password;
         const { t } = this.props;
         return (
-            <div className="col-lg-12">
-                <h3>{t('Login')}</h3>
-                <hr />
-                <p className="description-p" style={{ color: "red" }}>  ( * ) Zorunlu alanlar</p>
-                <form >
-                    <Input
-                        label={t("Username *")}
-                        error={username}
-                        type="text"
-                        name="username"
-                        placeholder={t("Username *")}
-                        valueName={this.state.username}
-                        onChangeData={this.onChangeData}
-                    />
-                    <Input
-                        label={t("Password *")}
-                        error={password}
-                        type="password"
-                        name="password"
-                        placeholder={t("Password *")}
-                        valueName={this.state.password}
-                        onChangeData={this.onChangeData}
-                    />
-                    <button 
-                        className="btn btn-primary " 
-                        type="button" 
-                        disabled={!btnEnable}
-                        onClick={this.onClickSignUp}>{t('Login')}</button>
-                </form>
-                <br/>
-                { this.state.error ? 
-                <div className="alert alert-danger" role="alert">
-                    {this.state.error}
-                </div>
-                : null
+            <div className="container row">
+                <div className="col-lg-8">
+                    <h3>{t('Login')}</h3>
+                    <hr />
+                    <p className="description-p" style={{ color: "red" }}>  ( * ) Zorunlu alanlar </p>
+                    <form >
+                        <Input
+                            label={t("Username *")}
+                            error={username}
+                            type="text"
+                            name="username"
+                            placeholder={t("Username *")}
+                            valueName={this.state.username}
+                            onChangeData={this.onChangeData}
+                        />
+                        <Input
+                            label={t("Password *")}
+                            error={password}
+                            type="password"
+                            name="password"
+                            placeholder={t("Password *")}
+                            valueName={this.state.password}
+                            onChangeData={this.onChangeData}
+                        />
+                        <button
+                            className="btn btn-primary"
+                            type="button"
+                            disabled={!btnEnable}
+                            onClick={this.onClickLogin}>{t('Login')}</button>
+                    </form>
+                    <br />
+                    {this.state.error &&
+                        <div className="alert alert-danger" role="alert">
+                            {this.state.error}
+                        </div>
+                        
 
-                }
+                    }
+                </div>
+                <div className="col-lg-3">
+                    <img style={{ height: 200 }} src="https://images.squarespace-cdn.com/content/v1/55e06d0ee4b0718764fcc921/1507805805238-M8XG4RMCMWITZ7LJGEEF/ke17ZwdGBToddI8pDm48kETUuxmp5xHjxR_mq0kKQipZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7XbdY2v8mR--EcMEe2KaFSVzNBu9Qs0q6qR3QzqKFtHJVM6oy5K0EEbGe9v0FXNpEg/slidebank+login.gif" alt="" />
+                </div>
+                <div className="col"></div>
+                <div className="col-lg-12">
+                    <hr />
+                    <hr />
+                    <hr />
+                </div>
             </div>
         )
     }
 }
-export default withTranslation()(UserLoginPage);
+// withTranslation to change language (turkısh <=> english)
+// connect for redux
+export default connect()(withTranslation()(withRouter(UserLoginPage)));

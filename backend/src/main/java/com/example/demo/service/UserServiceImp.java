@@ -1,7 +1,10 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -9,6 +12,9 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,6 +23,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.example.demo.dto.UserDto;
@@ -35,6 +42,13 @@ public class UserServiceImp implements UserService {
 	private final Logger logger;
 	private final PasswordEncoder passwordEncoder;
 
+	@Override
+	public Page<UserDto> getAll(Pageable page) {
+		//Pageable pageable = PageRequest.of(currentPage, pageSize);
+		Page<User> pageList = repository.findAll(page);
+		//UserDto[] dtoArray = mapper.map(userlist.getContent(), UserDto[].class);
+		return pageList.map(UserDto::new);
+	}
 	@Transactional
 	public ResponseEntity<?> save(@Valid User user) {
 //		if (dto.getEmail() == null || dto.getEmail().isEmpty()

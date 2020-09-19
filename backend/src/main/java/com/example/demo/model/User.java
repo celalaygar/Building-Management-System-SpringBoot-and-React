@@ -69,6 +69,8 @@ public class User {
 	@Size(min = 5, max = 200)
 	private String email;
 
+	private String image;
+	
 	@Transient
 	@NotEmpty
 	@NotNull

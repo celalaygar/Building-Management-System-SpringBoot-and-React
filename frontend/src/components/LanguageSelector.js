@@ -1,12 +1,13 @@
 import React from 'react'
 import ApiService from "../Services/ApiService";
-import { withTranslation } from 'react-i18next';
+import { useTranslation, withTranslation } from 'react-i18next';
 
 const LanguageSelector = (props) => {
 
-
+    const { t, i18n} = useTranslation();
+    
     const onchangeLanguage = lg => {
-        const { i18n } = props;
+        //const { i18n } = props;
         i18n.changeLanguage(lg);
         ApiService.changeLanguage(lg);
 
@@ -21,6 +22,5 @@ const LanguageSelector = (props) => {
         </div>
     );
 };
-
-
-export default withTranslation()(LanguageSelector);
+export default LanguageSelector;
+//export default withTranslation()(LanguageSelector);

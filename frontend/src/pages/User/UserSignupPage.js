@@ -1,13 +1,8 @@
 import React, { Component } from 'react'
-import UserService from '../../Services/UserService';
-import "alertifyjs/build/css/alertify.css";
-import AlertifyService from '../../Services/AlertifyService';
 import Input from '../../components/input';
 import { withTranslation } from 'react-i18next';
-// import ApiService from '../../Services/ApiService';
-// import LanguageSelector from '../../components/LanguageSelector';
-// import * as alertify from 'alertifyjs';
-
+import {  signupHandler } from '../../redux/AuthenticationAction';
+import { connect } from 'react-redux';
 
 class UserSignupPage extends Component {
     constructor(props) {
@@ -44,7 +39,6 @@ class UserSignupPage extends Component {
                 errors.repeatPassword = undefined;
             }
         }
-
         this.setState({ stateData, errors: errors });
     }
     onClickSignUp = async (e) => {
@@ -53,25 +47,29 @@ class UserSignupPage extends Component {
         e.preventDefault();
         this.setState({ errors: {} })
         let data = this.state;
-        console.log(data)
+        const { dispatch, history } = this.props;
         try {
-            const response = await UserService.post(this.state);
+            const response = await dispatch(signupHandler(data));
+            console.log(response)
+            history.push("/index");
+            //const response = await UserService.post(this.state);
+            
             //to control that password and repeatPassword must be same
-            if (response.data.body.validationErrors) {
-                this.setState({ errors: response.data.body.validationErrors })
-            } else {
-                console.log(response)
-                this.setState({
-                    username: '',
-                    email: '',
-                    password: '',
-                    repeatPassword: "",
-                    name: '',
-                    surname: ''
-                });
-                this.setState({ errors: {} })
-                AlertifyService.successMessage("Kayıt işlemi başarılı")
-            }
+            // if (response.data.body.validationErrors) {
+            //     this.setState({ errors: response.data.body.validationErrors })
+            // } else {
+            //     console.log(response)
+            //     this.setState({
+            //         username: '',
+            //         email: '',
+            //         password: '',
+            //         repeatPassword: "",
+            //         name: '',
+            //         surname: ''
+            //     });
+            //     this.setState({ errors: {} })
+            //     AlertifyService.successMessage("Kayıt işlemi başarılı");
+            //}
         } catch (error) {
             if (error.response) {
                 console.log(error.response)
@@ -84,7 +82,6 @@ class UserSignupPage extends Component {
                 console.log(error.request);
             else
                 console.log(error.message);
-
         }
         // .then(res=>{
         //      console.log(res.data);
@@ -177,5 +174,5 @@ class UserSignupPage extends Component {
         )
     }
 }
-
-export default withTranslation()(UserSignupPage);
+const translation = withTranslation()(UserSignupPage);
+export default connect()(translation);

@@ -2,7 +2,10 @@
  class AuthenticationService {
     isUserLoggedIn() { 
         let isLoggedIn = localStorage.getItem('isLoggedIn');
-        if (isLoggedIn  === null || !isLoggedIn) return false;
+        
+        if (isLoggedIn === null )      return false;
+        if (isLoggedIn === undefined ) return false;
+        if (!isLoggedIn)               return false;
         return isLoggedIn;
     }
 

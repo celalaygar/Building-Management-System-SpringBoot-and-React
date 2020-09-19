@@ -1,7 +1,11 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import com.example.demo.dto.UserDto;
@@ -13,4 +17,6 @@ public interface UserService {
 	public Boolean deleteUser(Long id);
 
 	public UserDto getUser(Long id);
+
+	public Page<UserDto> getAll(Pageable page) ;
 }

@@ -13,7 +13,7 @@ const Input = (props) => {
                     name={name}
                     onChange={e => onChangeData(name, e.target.value)}
                     value={valueName}
-                    placeholder={placeholder} required />
+                    placeholder={placeholder}  />
                 <div className="invalid-feedback">{error}</div>
             </div>
         );

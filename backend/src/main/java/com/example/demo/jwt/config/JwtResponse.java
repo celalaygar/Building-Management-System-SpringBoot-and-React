@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class JwtResponse  implements Serializable{
 	private String username;
 	private String jwttoken;
+	private String email;
 }

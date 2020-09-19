@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.example.demo.model.User;
 import com.sun.istack.NotNull;
 
 import lombok.Data;
@@ -23,14 +24,21 @@ public class UserDto {
 
 	private String email;
 
-	private String password;
-	
 	private String repeatPassword;
 	
 	private Date bornDate;
-
+	
+	private String image;
+	
 	public String getFullName() {
 		return this.name+" "+this.surname;
 	}
-	
+	public UserDto(User user) {
+		this.username=user.getUsername();
+		this.name=user.getName();
+		this.surname=user.getSurname();
+		this.email=user.getEmail();
+		this.bornDate=user.getBornDate();
+		this.image=user.getImage();
+	}
 }
