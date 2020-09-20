@@ -37,7 +37,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImp implements UserService {
-
+	public static final String TOKEN_PREFIX = "Bearer ";
 	private final UserRepository repository;
 	private final ModelMapper mapper;
 	private final Logger logger;
@@ -45,12 +45,16 @@ public class UserServiceImp implements UserService {
 	private final JwtTokenUtil tokenUtil;
 	@Override
 	public Page<UserDto> getAll(Pageable page, String authHeader) { 
-//		if(authHeader != null) {
-//			String username = tokenUtil.getUsernameFromToken(authHeader);
-//			return repository.findByUsernameNot(username, page).map(UserDto::new);
-//		}
-		Page<User> pageList = repository.findAll(page); 
-		return pageList.map(UserDto::new);
+		Page<UserDto> pageDto = null;
+		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
+			String token = authHeader.replace(TOKEN_PREFIX, "");
+			String username = tokenUtil.getUsernameFromToken(token);
+			pageDto = repository.findByUsernameNot(username, page).map(UserDto::new);
+			return pageDto;
+		}
+		//Page<User> pageList = repository.findAll(page).map(UserDto::new); 
+		pageDto = repository.findAll(page).map(UserDto::new); 
+		return pageDto;
 	}
 	@Transactional
 	public ResponseEntity<?> save(@Valid User user) {
