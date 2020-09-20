@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.error.ApiError;
+import com.example.demo.jwt.config.JwtTokenUtil;
 import com.example.demo.model.User;
 import com.example.demo.repo.UserRepository;
 
@@ -41,12 +42,14 @@ public class UserServiceImp implements UserService {
 	private final ModelMapper mapper;
 	private final Logger logger;
 	private final PasswordEncoder passwordEncoder;
-
+	private final JwtTokenUtil tokenUtil;
 	@Override
-	public Page<UserDto> getAll(Pageable page) {
-		//Pageable pageable = PageRequest.of(currentPage, pageSize);
-		Page<User> pageList = repository.findAll(page);
-		//UserDto[] dtoArray = mapper.map(userlist.getContent(), UserDto[].class);
+	public Page<UserDto> getAll(Pageable page, String authHeader) { 
+//		if(authHeader != null) {
+//			String username = tokenUtil.getUsernameFromToken(authHeader);
+//			return repository.findByUsernameNot(username, page).map(UserDto::new);
+//		}
+		Page<User> pageList = repository.findAll(page); 
 		return pageList.map(UserDto::new);
 	}
 	@Transactional

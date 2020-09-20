@@ -1,12 +1,12 @@
 import ApiService from "./ApiService";
 
-
-
 const USER_URL  = '/user'
 class UserService {
 
-    getUsers(url){ 
-        return ApiService.get(USER_URL+url)
+    getUsers(page, size){ 
+        let url = '/users?page='+page.toString()+'&size='+size;
+        console.log(url)
+        return ApiService.get(USER_URL+url);
     }
 
     get(url) { 

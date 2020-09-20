@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.UserDto;
 import com.example.demo.error.ApiError;
 import com.example.demo.model.User;
+import com.example.demo.model.annotation.CurrentUser;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserServiceImp;
 import com.example.demo.util.ApiPaths;
@@ -45,8 +47,9 @@ public class UserApi {
 
 	//localhost:8501/api/user/users?page=1&size=4
 	@GetMapping("/users")
-	public ResponseEntity<Page<UserDto>> getAll(Pageable page) {
-		return ResponseEntity.ok(service.getAll(page));
+	public ResponseEntity<Page<UserDto>> getAll(@RequestHeader("Authorization") String authHeader,@RequestHeader("username") String username,Pageable page) {
+		System.out.println(username);
+		return ResponseEntity.ok(service.getAll(page,authHeader));
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {

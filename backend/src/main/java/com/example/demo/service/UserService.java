@@ -18,5 +18,5 @@ public interface UserService {
 
 	public UserDto getUser(Long id);
 
-	public Page<UserDto> getAll(Pageable page) ;
+	public Page<UserDto> getAll(Pageable page,String authHeader ) ;
 }
