@@ -47,9 +47,11 @@ public class UserApi {
 
 	//localhost:8501/api/user/users?page=1&size=4
 	@GetMapping("/users")
-	public ResponseEntity<Page<UserDto>> getAll(@RequestHeader("Authorization") String authHeader,@RequestHeader("username") String username,Pageable page) {
-		System.out.println(username);
-		return ResponseEntity.ok(service.getAll(page,authHeader));
+	public ResponseEntity<Page<UserDto>> getAll(Pageable page) {
+		
+		//@RequestHeader("Authorization") String authHeader,@RequestHeader("username") String username,
+		//System.out.println(username);
+		return ResponseEntity.ok(service.getAll(page,null));
 	}
 	@GetMapping("/{id}")
 	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {

@@ -10,7 +10,6 @@ target/
 .factorypath
 .project
 .settings
-.mvn
 .springBeans
 .sts4-cache
 .dbeaver
