@@ -53,15 +53,15 @@ public class UserApi {
 		//System.out.println(username);
 		return ResponseEntity.ok(service.getAll(page,authHeader));
 	}
-	@GetMapping("/{id}")
-	public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-		return ResponseEntity.ok(service.getUser(id));
+	@GetMapping("/{username}")
+	public ResponseEntity<UserDto> getUser(@PathVariable String username) {
+		return ResponseEntity.ok(service.getUser(username));
 	}
-
-	@GetMapping("/hello")
-	public ResponseEntity<String> getHello( ) {
-		return ResponseEntity.ok("hello spring boot");
-	}
+//
+//	@GetMapping("/hello")
+//	public ResponseEntity<String> getHello( ) {
+//		return ResponseEntity.ok("hello spring boot");
+//	}
 	@PostMapping
 	public ResponseEntity<?> postUser(@Valid @RequestBody User dto)  {
 		return ResponseEntity.ok(service.save(dto));

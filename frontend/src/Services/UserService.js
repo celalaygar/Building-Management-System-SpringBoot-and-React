@@ -12,7 +12,9 @@ class UserService {
     get(url) { 
         return ApiService.get(url)
     }
-
+    getUserByUsername(username){
+        return ApiService.get(USER_URL+'/'+username)
+    }
     post(data) { 
         return ApiService.post(USER_URL,data)
     }

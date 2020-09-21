@@ -16,7 +16,7 @@ public interface UserService {
 
 	public Boolean deleteUser(Long id);
 
-	public UserDto getUser(Long id);
+	public UserDto getUser(String username);
 
 	public Page<UserDto> getAll(Pageable page,String authHeader ) ;
 }

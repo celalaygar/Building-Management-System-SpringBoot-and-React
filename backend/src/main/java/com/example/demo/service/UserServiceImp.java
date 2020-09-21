@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 import javax.validation.Valid;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.example.demo.dto.UserDto;
 import com.example.demo.error.ApiError;
+import com.example.demo.error.NotFoundException;
 import com.example.demo.jwt.config.JwtTokenUtil;
 import com.example.demo.model.User;
 import com.example.demo.repo.UserRepository;
@@ -47,9 +49,9 @@ public class UserServiceImp implements UserService {
 	public Page<UserDto> getAll(Pageable page, String authHeader) { 
 		Page<UserDto> pageDto = null;
 		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
-			String token = authHeader.replace(TOKEN_PREFIX, "");
-			String username = tokenUtil.getUsernameFromToken(token);
-			pageDto = repository.findByUsernameNot(username, page).map(UserDto::new);
+			String username = getUsername(authHeader);
+			Page<User> pdoUser = repository.findByUsernameNot(username, page);
+			pageDto = pdoUser.map(UserDto::new);
 			return pageDto;
 		}
 		//Page<User> pageList = repository.findAll(page).map(UserDto::new); 
@@ -112,12 +114,13 @@ public class UserServiceImp implements UserService {
 //		error.setValidationErrors(validationErrors);
 //		return error;
 //	}
-	public UserDto getUser(Long id) {
-		User user = repository.findUserById(id);
+	public UserDto getUser(String username) {
+		User user = repository.findUserByUsernameWithStatusOne(username);
 
-		if (user == null) {
-			logger.error("There is no user with " + id);
-			throw new IllegalArgumentException("There is no user with " + id);
+		if (user==null) {
+			logger.error("There is no user with " + username);
+			throw new NotFoundException();
+			//throw new IllegalArgumentException("There is no user with " + id);
 		}
 		logger.info("User is ok");
 		UserDto dto = mapper.map(user, UserDto.class);
@@ -132,5 +135,15 @@ public class UserServiceImp implements UserService {
 		user.setStatus(0);
 		repository.save(user);
 		return true;
+	}
+	
+	private String getUsername(String authHeader) {
+		Page<UserDto> pageDto = null;
+		String username= null;
+		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
+			String token = authHeader.replace(TOKEN_PREFIX, "");
+			username = tokenUtil.getUsernameFromToken(token);
+		}
+		return username;
 	}
 }
