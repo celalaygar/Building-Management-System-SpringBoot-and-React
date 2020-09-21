@@ -97,10 +97,10 @@ import ApiService from './Services/ApiService';
               // jwttoken={jwttoken}
               onLogoutSuccess={this.onLogoutSuccess}
             />
+            <LanguageSelector />
             {links}
           </BrowserRouter>
 
-          <LanguageSelector />
 
           {/* <UserSignupPage /> */}
           {/* <UserLoginPage />

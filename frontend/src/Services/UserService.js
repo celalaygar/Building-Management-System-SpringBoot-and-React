@@ -4,8 +4,7 @@ const USER_URL  = '/user'
 class UserService {
 
     getUsers(page, size){ 
-        let url = '/users?page='+page.toString()+'&size='+size;
-        console.log(url)
+        let url = '/users?page='+page+'&size='+size;
         return ApiService.get(USER_URL+url);
     }
 

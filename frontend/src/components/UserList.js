@@ -28,7 +28,7 @@ class UserList extends Component {
         // console.log(res.data)
         try {
             await UserService.getUsers(number, size).then(res => {
-                console.log(res.data);
+                //console.log(res.data);
                 this.setState({ page: res.data });
             });
         } catch (error) {

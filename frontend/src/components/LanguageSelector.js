@@ -18,7 +18,8 @@ const LanguageSelector = (props) => {
             <hr />
             <img src="https://www.countryflags.io/tr/flat/32.png" style={{ "cursor": "pointer" }} onClick={() => onchangeLanguage("tr")} alt="Turkısh Flag" />
             <img src="https://www.countryflags.io/gb/flat/32.png" style={{ "cursor": "pointer" }} onClick={() => onchangeLanguage("en")} alt="England Flag" />
-
+        
+            <hr />
         </div>
     );
 };
