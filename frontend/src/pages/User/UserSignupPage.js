@@ -52,24 +52,7 @@ class UserSignupPage extends Component {
             const response = await dispatch(signupHandler(data));
             console.log(response)
             history.push("/index");
-            //const response = await UserService.post(this.state);
-            
-            //to control that password and repeatPassword must be same
-            // if (response.data.body.validationErrors) {
-            //     this.setState({ errors: response.data.body.validationErrors })
-            // } else {
-            //     console.log(response)
-            //     this.setState({
-            //         username: '',
-            //         email: '',
-            //         password: '',
-            //         repeatPassword: "",
-            //         name: '',
-            //         surname: ''
-            //     });
-            //     this.setState({ errors: {} })
-            //     AlertifyService.successMessage("Kayıt işlemi başarılı");
-            //}
+  
         } catch (error) {
             if (error.response) {
                 console.log(error.response)

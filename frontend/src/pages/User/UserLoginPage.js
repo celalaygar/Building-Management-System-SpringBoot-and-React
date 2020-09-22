@@ -17,8 +17,7 @@ class UserLoginPage extends Component {
             error: null,
             errors: {
             }
-        };
-        this.onClickLogin = this.onClickLogin.bind(this);
+        }; 
     }
     componentDidMount(){
 

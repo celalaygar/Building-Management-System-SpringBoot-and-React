@@ -19,7 +19,7 @@ const UserListItem = (props) => {
                 imageSource={imageSource} 
                 username={user.username} 
             /> 
-                <span className="pl-3">{index} : {user.username} </span>
+            <span className="pl-3">{index} : {user.username} </span>
         </Link>
     )
 }
