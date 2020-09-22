@@ -9,9 +9,16 @@ import UserService from '../../Services/UserService';
 class UserDetailPage extends Component {
 
     state = {
-        user: {}
+        user: {},
+        notFound:false,
+        editable:false
     };
     componentDidMount(){
+        let editable = false;
+        if(this.props.username === this.props.match.params.username){
+            editable= true;
+        }
+        this.setState({editable})
         this.loadUser();
     }
 
@@ -24,6 +31,7 @@ class UserDetailPage extends Component {
             
         } catch (error) {
             console.log(error)
+            this.setState({notFound:true});
             AlertifyService.alert("User not found !!");
             // setNotFound(true);
         }
@@ -31,23 +39,24 @@ class UserDetailPage extends Component {
     render() {
         //console.log(this.props.match.params.username)
         const {t} = this.props;
-        let message ="we can not edit";
-        let editable = false;
-        if(this.props.username === this.props.match.params.username){
-            message = 'we can edit';
-            editable= true;
-        }
+        const {user,notFound,editable}= this.state;
+
         return (
-            <div>
+
                 <div className="col-lg-12">
-                    <h5>{t('User Detail')} ({message})</h5>
+                    <h5>{t('User Detail')}</h5>
                     <hr />
-                </div>
-                <div className="col-lg-12">
-                    <UserCard user={this.state.user} image={this.props.image} username={this.props.match.params.username} editable={editable}/>
+                    <UserCard 
+                        {...this.state}
+                        // user={user} 
+                        // notFound={notFound} 
+                        // editable={editable}
+                        image={this.props.image} 
+                        username={this.props.match.params.username} 
+                        />
                     {/* <ProfileCard currentUser={this.props.match.params.username} /> */}
+                    <hr /> <hr /> <hr /> <hr />
                 </div>
-            </div>
         )
     }
 }

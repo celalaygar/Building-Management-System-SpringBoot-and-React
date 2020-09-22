@@ -2,6 +2,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import defaultPicture from "../assets/profile.png"
+import ProfileImage from './ProfileImage';
 
 
 const UserListItem = (props) => {
@@ -12,12 +13,12 @@ const UserListItem = (props) => {
         imageSource=user.image;
     return (
         <Link to={'/user/'+user.username} className="list-group-item list-group-item-action" >
-            <img 
-                className="rounded-circle" 
+            <ProfileImage 
                 width="32" 
                 height="32" 
-                src={imageSource}   
-                alt={user.username+'-progile-icon'} />
+                imageSource={imageSource} 
+                username={user.username} 
+            /> 
                 <span className="pl-3">{index} : {user.username} </span>
         </Link>
     )
