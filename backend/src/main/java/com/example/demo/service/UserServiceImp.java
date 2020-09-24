@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.error.ApiError;
 import com.example.demo.error.NotFoundException;
 import com.example.demo.jwt.config.JwtTokenUtil;
@@ -49,7 +50,7 @@ public class UserServiceImp implements UserService {
 	public Page<UserDto> getAll(Pageable page, String authHeader) { 
 		Page<UserDto> pageDto = null;
 		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
-			String username = getUsername(authHeader);
+			String username = getUsernameFromToken(authHeader);
 			Page<User> pdoUser = repository.findByUsernameNot(username, page);
 			pageDto = pdoUser.map(UserDto::new);
 			return pageDto;
@@ -58,6 +59,7 @@ public class UserServiceImp implements UserService {
 		pageDto = repository.findAll(page).map(UserDto::new); 
 		return pageDto;
 	}
+	
 	@Transactional
 	public ResponseEntity<?> save(@Valid User user) {
 //		if (dto.getEmail() == null || dto.getEmail().isEmpty()
@@ -103,17 +105,8 @@ public class UserServiceImp implements UserService {
 		UserDto dto = mapper.map(user, UserDto.class);
 		return ResponseEntity.ok(dto);
 	}
-//	@ExceptionHandler
-//	@ResponseStatus(HttpStatus.BAD_REQUEST)
-//	public ApiError handleValidationException(MethodArgumentNotValidException ex) {
-//		ApiError error = new ApiError(400, "Null Pointer Problem", null);
-//		Map<String, String> validationErrors = new HashMap<>();
-//		for (FieldError fieldError  : ex.getBindingResult().getFieldErrors()) {
-//			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());
-//		} 
-//		error.setValidationErrors(validationErrors);
-//		return error;
-//	}
+	
+
 	public UserDto getUser(String username) {
 		User user = repository.findUserByUsernameWithStatusOne(username);
 
@@ -137,7 +130,7 @@ public class UserServiceImp implements UserService {
 		return true;
 	}
 	
-	private String getUsername(String authHeader) {
+	private String getUsernameFromToken(String authHeader) {
 		Page<UserDto> pageDto = null;
 		String username= null;
 		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
@@ -145,5 +138,29 @@ public class UserServiceImp implements UserService {
 			username = tokenUtil.getUsernameFromToken(token);
 		}
 		return username;
+	}
+	@Override
+	public ResponseEntity<?> updateUser(String authHeader,String username,UserUpdateDto dto) {
+		String userNameFromToken = getUsernameFromToken(authHeader);
+		if(!userNameFromToken.equals(username)){
+			logger.error("User Names cannot match");
+			ApiError error = new ApiError(403, "User Names cannot match", "api/user/"+authHeader);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+		}
+		User user = repository.findUserByUsernameWithStatusOne(username);
+		if (user==null) {
+			logger.error("There is no user with " + username);
+			throw new NotFoundException();
+			//throw new IllegalArgumentException("There is no user with " + id);
+		}
+		user.setUsername(dto.getUsername());
+		user.setEmail(dto.getEmail());
+		user.setName(dto.getName());
+		user.setSurname(dto.getSurname());
+		user.setBornDate(dto.getBornDate());
+		user = repository.save(user);
+		UserDto result = mapper.map(user, UserDto.class);
+		logger.info("User updated");
+		return ResponseEntity.ok(result);
 	}
 }

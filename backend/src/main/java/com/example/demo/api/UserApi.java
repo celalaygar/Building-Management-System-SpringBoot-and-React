@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.error.ApiError;
 import com.example.demo.model.User;
 import com.example.demo.model.annotation.CurrentUser;
@@ -45,32 +46,28 @@ import lombok.RequiredArgsConstructor;
 public class UserApi {
 	private final UserService service;
 
-	//localhost:8501/api/user/users?page=1&size=4
+	// localhost:8501/api/user/users?page=1&size=4
 	@GetMapping("/users")
 	public ResponseEntity<Page<UserDto>> getAll(@RequestHeader("Authorization") String authHeader, Pageable page) {
-		
-		//@RequestHeader("Authorization") String authHeader,@RequestHeader("username") String username,
-		//System.out.println(username);
-		return ResponseEntity.ok(service.getAll(page,authHeader));
+
+		return ResponseEntity.ok(service.getAll(page, authHeader));
 	}
+
 	@GetMapping("/{username}")
 	public ResponseEntity<UserDto> getUser(@PathVariable String username) {
 		return ResponseEntity.ok(service.getUser(username));
 	}
-//
-//	@GetMapping("/hello")
-//	public ResponseEntity<String> getHello( ) {
-//		return ResponseEntity.ok("hello spring boot");
-//	}
+
 	@PostMapping
-	public ResponseEntity<?> postUser(@Valid @RequestBody User dto)  {
+	public ResponseEntity<?> postUser(@Valid @RequestBody User dto) {
 		return ResponseEntity.ok(service.save(dto));
 	}
 
-	@PutMapping("/[id}")
-	public ResponseEntity<?> getUser(@PathVariable Long id, @RequestBody UserDto dto) {
+	@PutMapping("/{username}")
+	public ResponseEntity<?> updateUser(@RequestHeader("Authorization") String authHeader,
+			@PathVariable String username, @RequestBody UserUpdateDto dto) {
 
-		return ResponseEntity.ok(null);
+		return ResponseEntity.ok(service.updateUser(authHeader, username, dto));
 	}
 
 	@DeleteMapping("/{id}")
@@ -78,7 +75,7 @@ public class UserApi {
 
 		return ResponseEntity.ok(service.deleteUser(id));
 	}
-	
+
 //	@ExceptionHandler
 //	@ResponseStatus(HttpStatus.BAD_REQUEST)
 //	public ApiError handleValidationException(MethodArgumentNotValidException ex) {
@@ -90,6 +87,5 @@ public class UserApi {
 //		error.setValidationErrors(validationErrors);
 //		return error;
 //	}
-	
-	
+
 }

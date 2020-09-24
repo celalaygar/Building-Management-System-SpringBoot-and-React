@@ -1,4 +1,4 @@
-import ApiService from "../Services/ApiService";
+import ApiService from "../Services/BaseService/ApiService";
 import UserService from "../Services/UserService";
 import * as ACTIONS from "./Constants";
 

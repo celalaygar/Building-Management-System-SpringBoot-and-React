@@ -1,10 +1,10 @@
 import React from 'react'
-import ApiService from "../Services/ApiService";
-import { useTranslation, withTranslation } from 'react-i18next';
+import ApiService from "../Services/BaseService/ApiService";
+import { useTranslation  } from 'react-i18next';
 
 const LanguageSelector = (props) => {
 
-    const { t, i18n} = useTranslation();
+    const { /*t,*/ i18n} = useTranslation();
     
     const onchangeLanguage = lg => {
         //const { i18n } = props;

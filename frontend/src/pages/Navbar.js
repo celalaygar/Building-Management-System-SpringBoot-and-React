@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import {  useDispatch, useSelector } from 'react-redux';
 import { logoutAction } from '../redux/AuthenticationAction';
-import ApiService from '../Services/ApiService';
+import ApiService from '../Services/BaseService/ApiService';
 
 const NavbarComponent = props =>{
 

@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Input from '../../components/input';
-import { withTranslation } from 'react-i18next';
-// import AlertifyService from '../../Services/AlertifyService';
-// import LanguageSelector from '../../components/LanguageSelector';
+import { withTranslation } from 'react-i18next'; 
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { /*loginAction,*/ loginHandler } from './../../redux/AuthenticationAction';

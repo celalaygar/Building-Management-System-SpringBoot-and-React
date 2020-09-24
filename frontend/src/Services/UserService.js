@@ -1,4 +1,4 @@
-import ApiService from "./ApiService";
+import ApiService from "./BaseService/ApiService";
 
 const USER_URL  = '/user'
 class UserService {
@@ -17,7 +17,9 @@ class UserService {
     post(data) { 
         return ApiService.post(USER_URL,data)
     }
-
+    update(username,body) { 
+        return ApiService.put(USER_URL+"/"+username,body)
+    }
     //put(url, data) { return axios.put(API_BASE_URL + url, data); }
 
     //delete(url) { return axios.delete(API_BASE_URL + url); }

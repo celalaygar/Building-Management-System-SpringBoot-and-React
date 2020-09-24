@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 import com.example.demo.dto.UserDto;
+import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.model.User;
 
 public interface UserService {
@@ -19,4 +20,6 @@ public interface UserService {
 	public UserDto getUser(String username);
 
 	public Page<UserDto> getAll(Pageable page,String authHeader ) ;
+
+	public ResponseEntity<?> updateUser(String authHeader,String username,UserUpdateDto dto);
 }

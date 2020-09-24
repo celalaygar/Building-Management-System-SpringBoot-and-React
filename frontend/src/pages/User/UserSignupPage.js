@@ -21,7 +21,7 @@ class UserSignupPage extends Component {
         this.onChangeData = this.onChangeData.bind(this);
     }
 
-    onChangeData(type, event) {
+    onChangeData = (type, event) =>{
         const { t } = this.props;
 
         const stateData = this.state;

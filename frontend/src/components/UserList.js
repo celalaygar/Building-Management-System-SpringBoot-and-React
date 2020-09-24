@@ -31,11 +31,41 @@ class UserList extends Component {
                 //console.log(res.data);
                 this.setState({ page: res.data });
             });
-        } catch (error) {
-            console.log(error)
-            AlertifyService.errorMessage("Kayıt Bulunamadı..")
-        }
-
+        } catch(error) {
+            if (error.response) {
+                //console.log(error.response.data.message);
+                console.log(error.response.data.message);
+                AlertifyService.alert(error.response.data.message);
+            }
+            else if (error.request) {
+                console.log(error.request);
+                AlertifyService.alert(error.request);
+            }
+            else {
+                console.log(error.message);
+                AlertifyService.alert(error.message);
+            }
+        };
+        
+        // catch (error) {
+        //     console.log(error)
+        //     AlertifyService.errorMessage("Kayıt Bulunamadı..")
+        // }
+        // .then(res=>{
+        //      console.log(res.data);
+        // })
+        // .catch(error=> {
+        //     if (error.response) {
+        //         //console.log(error.response.data.message);
+        //         console.log(error.response.data.message.body);
+        //         AlertifyService.alert(error.response.data.message);
+        //         this.setState({errors:error.response.data.message.headers.body.validationErrors})
+        //     }
+        //     else if (error.request) 
+        //         console.log(error.request);
+        //     else 
+        //         console.log(error.message);
+        // });
     }
     onClickNext = () => {
         const nextPage = this.state.page.number + 1;
