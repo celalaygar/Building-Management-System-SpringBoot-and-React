@@ -62,7 +62,7 @@ public class JwtAuthenticationController {
 			String jwt = jwtTokenUtil.generateToken(authentication);
 			String username = authenticationRequest.getUsername();
 			User user = userRepository.findByUsername(username);
-			return ResponseEntity.ok(new JwtResponse(username,jwt,user.getEmail()));
+			return ResponseEntity.ok(new JwtResponse(username,jwt,user.getEmail(),user.getImage()));
 		}catch (BadCredentialsException e) {
 			ApiError error = new ApiError(401, "Unauthorized request : "+e.getMessage(), "/api/login");
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);

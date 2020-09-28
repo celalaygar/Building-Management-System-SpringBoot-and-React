@@ -1,16 +1,19 @@
-
 import React from 'react'
+import defaultPicture from "../assets/profile.png"
+
+
 
 const ProfileImage = (props) => {
-
+    const {width, height, imageSource, newimage,username} = props;
 
     return (
             <img 
                 className="rounded-circle shadow" 
-                width={props.width} 
-                height={props.height}
-                src={props.imageSource}   
-                alt={props.username+'-progile-icon'} />
+                width={width} 
+                height={height}
+                src={newimage || imageSource}  
+                onError={event => event.target.src = defaultPicture } 
+                alt={username+'-progile-icon'} />
     )
 }
 

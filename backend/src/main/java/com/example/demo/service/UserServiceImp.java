@@ -1,7 +1,13 @@
 package com.example.demo.service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +37,7 @@ import com.example.demo.dto.UserDto;
 import com.example.demo.dto.UserUpdateDto;
 import com.example.demo.error.ApiError;
 import com.example.demo.error.NotFoundException;
+import com.example.demo.file.FileService;
 import com.example.demo.jwt.config.JwtTokenUtil;
 import com.example.demo.model.User;
 import com.example.demo.repo.UserRepository;
@@ -46,7 +53,10 @@ public class UserServiceImp implements UserService {
 	private final Logger logger;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtTokenUtil tokenUtil;
+	private final FileService fileService;
+	
 	@Override
+	@Transactional
 	public Page<UserDto> getAll(Pageable page, String authHeader) { 
 		Page<UserDto> pageDto = null;
 		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
@@ -107,6 +117,7 @@ public class UserServiceImp implements UserService {
 	}
 	
 
+	@Transactional
 	public UserDto getUser(String username) {
 		User user = repository.findUserByUsernameWithStatusOne(username);
 
@@ -153,6 +164,16 @@ public class UserServiceImp implements UserService {
 			throw new NotFoundException();
 			//throw new IllegalArgumentException("There is no user with " + id);
 		}
+		if(dto.getImage() != null) {
+			String oldImage = user.getImage();
+			try {
+				String fileName = fileService.writeBase64StringToFile(dto.getImage());
+				user.setImage(fileName);
+			} catch (IOException e) { 
+				e.printStackTrace();
+			}
+			fileService.deleteFile(oldImage);
+		}
 		user.setUsername(dto.getUsername());
 		user.setEmail(dto.getEmail());
 		user.setName(dto.getName());
@@ -163,4 +184,6 @@ public class UserServiceImp implements UserService {
 		logger.info("User updated");
 		return ResponseEntity.ok(result);
 	}
+
+
 }

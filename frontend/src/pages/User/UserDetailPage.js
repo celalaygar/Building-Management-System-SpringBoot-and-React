@@ -10,6 +10,7 @@ import UserService from '../../Services/UserService';
 const UserDetailPage = (props) => {
     const [user, setUser] = useState({});
     const [notFound, setNotFound] = useState(false);
+    const [newImage, setNewImage] = useState();
     const [editable, setEditable] = useState(false);
     const [inEditMode, setInEditMode] = useState(false);
     const { username } = useParams(); // this.props.match.params.username
@@ -26,8 +27,9 @@ const UserDetailPage = (props) => {
     })
     //console.log(reduxStore)
     useEffect(() => {
-        loadUser()
-    }, [username,inEditMode])
+
+        loadUser();
+    }, [username,inEditMode,editable])
 
     const loadUser = async () => {
         setNotFound(false)
@@ -35,7 +37,6 @@ const UserDetailPage = (props) => {
         if (reduxStore.username === username) {
             setEditable(true);
         }
-
         try {
             const response = await UserService.getUserByUsername(username);
             setUser(response.data)
@@ -48,8 +49,49 @@ const UserDetailPage = (props) => {
     }
     const showUpdateForm = (control) =>{
         setInEditMode(control);
+        !control && setNewImage(undefined) 
     }
-    
+    const saveImage = async (e) =>{
+        //data:image/jpeg;base64,/9j/4AAQSkZJRgA
+        e.preventDefault();
+        let body = { ...user};
+        if(newImage){
+            body ['image']= newImage.split(",")[1];
+            try {
+                const response = await UserService.update(username, body);
+                console.log(response.data)
+                showUpdateForm(false)
+                AlertifyService.successMessage("User Image Updated..");
+            } catch (error) {
+                if (error.response) {
+                    console.log(error.response)
+                    if (error.response.data.validationErrors) {
+                        console.log(error.response.data.validationErrors);
+                        this.setState({ errors: error.response.data.validationErrors })
+                    }
+                }
+                else if (error.request)
+                    console.log(error.request);
+                else
+                    console.log(error.message);
+            } 
+        }else{
+            AlertifyService.alert("User Image Not Updated..");
+        }
+
+
+    }
+    const onChangeData = (type, event) =>{
+        if(event.target.files.length <1){
+            return ;
+        }
+        const file = event.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.onloadend = () => {
+            setNewImage(fileReader.result);
+        }
+        fileReader.readAsDataURL(file);
+    };
     if (notFound) {
         return (
             <div className="container">
@@ -62,9 +104,10 @@ const UserDetailPage = (props) => {
                 <h5>{t('User Detail')} </h5>
                 <hr />
                 <UserCard
-                    user={user} 
-                    editable={editable}
-                    username={username}
+                    user     = {user}
+                    newImage = {newImage}
+                    editable = {editable}
+                    username = {username}
                 />
                 {
                     editable &&
@@ -83,11 +126,26 @@ const UserDetailPage = (props) => {
                     </div>
                 }
                 { inEditMode &&
-                    <UpdateUserForm 
-                        user = {user}
-                        inEditMode = {inEditMode}
-                        showUpdateForm={showUpdateForm}
-                    />
+                    <>
+                        <ul className="list-group list-group-flush ">
+                            <li className="list-group-item">
+                                <b>Resim Değiştir : </b>
+                                <input type="file" onChange={event=> onChangeData("image",event)}/>
+                                <button 
+                                onClick={saveImage} 
+                                className="btn btn-sm btn-primary">{t('Save')} </button>
+                                <button 
+                                    onClick={e => showUpdateForm(false)} 
+                                    className="btn btn-sm btn-danger">{t('Cancel')} </button>
+                            </li>
+                        </ul>
+                        <UpdateUserForm 
+                            user = {user}
+                            inEditMode = {inEditMode}
+                            newImage = {newImage}
+                            showUpdateForm={showUpdateForm}
+                        />
+                    </>
                 }
             </div>
         )

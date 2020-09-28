@@ -40,21 +40,14 @@ class UpdateUserForm extends Component {
     onClickSave = async (e) => {
         // browser form içeriğini bir yere göndermesini engeller.
         // browserin bizim yerimize bir şey yapmasını engellemiş oluyoruz.
-        console.log("clicked for updating user")
         e.preventDefault();
         this.setState({ errors: {} })
         let body = this.state;
-        //const { dispatch, history } = this.props;
         try {
-            console.log(body)
             const response = await UserService.update(this.props.username,body);
-            // const response = await dispatch(signupHandler(data));
-            console.log(response)
-            //this.props.showUpdateForm(false);
+            console.log(response);
             this.logoutForChangingUserData();
             AlertifyService.alert("User Updated..");
-
-  
         } catch (error) {
             if (error.response) {
                 console.log(error.response)
@@ -74,8 +67,8 @@ class UpdateUserForm extends Component {
         this.props.dispatch(logoutAction());
     }
     render() {
-        const { t,user } = this.props;  
-        const { username,email,bornDate} = this.state.errors;
+        const { t /*,user*/ } = this.props;  
+        const { username,email /*,bornDate*/} = this.state.errors;
         return (
             <div>
                 {this.props.inEditMode &&

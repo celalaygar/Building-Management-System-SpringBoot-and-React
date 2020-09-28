@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import com.example.demo.model.User;
 import com.sun.istack.NotNull;
@@ -34,6 +35,7 @@ public class UserUpdateDto {
 	
 	private Date bornDate;
 	
+	@Lob
 	private String image;
 
 //	public UserUpdateDto(User user) {
