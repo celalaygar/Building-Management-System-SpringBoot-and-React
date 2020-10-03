@@ -143,7 +143,7 @@ public class UserServiceImp implements UserService {
 	}
 	
 	private String getUsernameFromToken(String authHeader) {
-		Page<UserDto> pageDto = null;
+		 
 		String username= null;
 		if(authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
 			String token = authHeader.replace(TOKEN_PREFIX, "");
@@ -215,7 +215,7 @@ public class UserServiceImp implements UserService {
 		}
 		user = repository.save(user);
 		UserDto result = mapper.map(user, UserDto.class);
-		logger.info("User updated");
+		logger.info("Image updated");
 		return ResponseEntity.ok(result);
 	}
 }

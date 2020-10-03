@@ -10,6 +10,8 @@ import HomeComponent from './pages/HomeComponent';
 import AuthenticatedRoute from './components/AuthenticatedRoute';
 import { connect } from 'react-redux';
 import ApiService from './Services/BaseService/ApiService';
+import UsersPage from './pages/User/UsersPage';
+import BuildingComponent from './pages/Building/BuildingComponent';
 
 class App extends Component {
 
@@ -52,6 +54,7 @@ class App extends Component {
     this.props.history.push('/login');
   }
   render() {
+    console.log(this.props.time)
     // localStorage.removeItem("jwttoken");
     // localStorage.removeItem("username");
     // localStorage.removeItem("isLoggedIn");
@@ -78,6 +81,9 @@ class App extends Component {
         <Switch>
           <AuthenticatedRoute exact path="/index" component={HomeComponent} isLoggedIn={isLoggedIn} />
           <AuthenticatedRoute path="/user/:username" component={UserDetailPage} isLoggedIn={isLoggedIn} />
+          <AuthenticatedRoute exact path="/users" component={UsersPage} isLoggedIn={isLoggedIn} />
+          <AuthenticatedRoute path="/building/:username" component={BuildingComponent} isLoggedIn={isLoggedIn} />
+          
           <Redirect to="/index" />
         </Switch>
       );

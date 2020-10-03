@@ -2,8 +2,10 @@ package com.example.demo.model;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +16,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -72,7 +76,7 @@ public class User {
 	private String email;
 
 	private String image;
-	
+
 	@Transient
 	@NotEmpty
 	@NotNull
@@ -92,4 +96,7 @@ public class User {
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
+
+	@OneToMany(targetEntity = Building.class, /*mappedBy = "users",*/ cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Building> buildings;
 }

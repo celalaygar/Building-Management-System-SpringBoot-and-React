@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +10,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -32,28 +36,36 @@ import lombok.Setter;
 @Table(name = "building")
 public class Building {
 
+	@Id
+	@Column(name = "id")
+	@SequenceGenerator(name = "seq_building", initialValue = 1, allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_building")
+	private Long id;
+
+	@Column(name = "building_name", unique = true, length = 5000)
+	private String buildingName;
 	
+	@Column(name = "building_adress", length = 5000)
+	private String buildingAdress;
 	
-    @Id
-    @Column(name = "id")
-    @SequenceGenerator(name = "seq_building", initialValue = 1, allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_building")
-    private Long id;
-    @Column(name = "building_name", unique = true,length = 5000)
-    private String buildingName;
-    @Column(name = "building_adress", length = 5000)
-    private String buildingAdress;
-    @Column(name = "createdAt")
-    @Temporal(TemporalType.DATE)
-    private Date createdAt;
-    @Column(name = "start_date", unique = true)
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
-    @OneToOne(fetch = FetchType.LAZY,
-            cascade =  CascadeType.ALL,
-            mappedBy = "building")
-    private BuildingAdress adress;
-    
+	@Column(name = "createdAt")
+	@Temporal(TemporalType.DATE)
+	private Date createdAt;
+	
+	@Column(name = "start_date", unique = true)
+	@Temporal(TemporalType.DATE)
+	private Date startDate;
+	
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "building")
+	private BuildingAdress adress;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+	private User createdUser;
+	
+	@OneToMany(mappedBy = "building")
+    private List<Apartment> apartments;
+	
 //    @Column(name = "alim_zamani", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 //    @Temporal(TemporalType.TIMESTAMP)
 //    private Date alimZamani;

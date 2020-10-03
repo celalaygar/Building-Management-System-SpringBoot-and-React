@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { logoutAction, updateUser } from '../redux/AuthenticationAction';
+import { logoutAction } from '../redux/AuthenticationAction';
 import AlertifyService from '../Services/AlertifyService';
 import ApiService from '../Services/BaseService/ApiService';
 import UserService from '../Services/UserService';
@@ -45,7 +45,7 @@ class UpdateUserForm extends Component {
         this.setState({ errors: {} })
         let body = this.state;
         try {
-            const {isLoggedIn,jwttoken, password} = this.props;
+            //const {isLoggedIn,jwttoken, password} = this.props;
             const response = await UserService.update(this.props.username,body);
             // const data = {isLoggedIn, jwttoken,password, ...response.data.body};
             // this.props.dispatch(updateUser(data));

@@ -80,6 +80,12 @@ const NavbarComponent = props =>{
                     <Link className="nav-link" to="/index">{t('HomePage')} <span className="sr-only">(current)</span></Link>
                 </li>
 
+                <li className="nav-item active">
+                    <Link className="nav-link" to="/users">{t('Users')} </Link>
+                </li>
+                <li className="nav-item active">
+                    <Link className="nav-link" to={"/building/" + username} >{t('Building')} </Link>
+                </li>
                 {/* DropDown Menu */}
                 <li  className="naw-item dropdown ml-3" style={{ cursor: "pointer" }} ref={dropDownMenuArea}>
                     <div className="d-flex" onClick={() => setDropDownVisible(true)}>

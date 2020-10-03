@@ -19,7 +19,6 @@ const authReducer = (state = { ...defaultState }, action) => {
         };
     }
     if(action.type === ACTIONS.UPDATE_ACTION){
-        console.log(action.payload)
         return {...action.payload};
     }
     return state;
