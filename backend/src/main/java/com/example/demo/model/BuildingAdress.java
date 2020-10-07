@@ -39,7 +39,7 @@ public class BuildingAdress {
     private String district;
     private String quarter;
     private String street;
-    private String doorNo;
+    private String buildingNo;
     private String image;
     //private String buildingId;
     @OneToOne(fetch = FetchType.EAGER, optional = false)

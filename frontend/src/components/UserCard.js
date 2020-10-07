@@ -15,7 +15,7 @@ const UserCard = (props) => {
     }, [props.user])
 
     if (image) {
-        imageSource = BACKEND_IMAGE_URL+image;
+        imageSource = image;
     }
 
     return (

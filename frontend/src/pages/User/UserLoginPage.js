@@ -98,7 +98,9 @@ class UserLoginPage extends Component {
                     }
                 </div>
                 <div className="col-lg-3">
-                    <img style={{ height: 200 }} src="https://images.squarespace-cdn.com/content/v1/55e06d0ee4b0718764fcc921/1507805805238-M8XG4RMCMWITZ7LJGEEF/ke17ZwdGBToddI8pDm48kETUuxmp5xHjxR_mq0kKQipZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7XbdY2v8mR--EcMEe2KaFSVzNBu9Qs0q6qR3QzqKFtHJVM6oy5K0EEbGe9v0FXNpEg/slidebank+login.gif" alt="" />
+                    <img style={{ height: 200 }} src="https://lovegospelmusic.com/wp-content/uploads/2020/07/Lovemusic-Income-Program-Login-Page.png" alt="" />
+                
+                    {/* <img style={{ height: 200 }} src="https://images.squarespace-cdn.com/content/v1/55e06d0ee4b0718764fcc921/1507805805238-M8XG4RMCMWITZ7LJGEEF/ke17ZwdGBToddI8pDm48kETUuxmp5xHjxR_mq0kKQipZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7XbdY2v8mR--EcMEe2KaFSVzNBu9Qs0q6qR3QzqKFtHJVM6oy5K0EEbGe9v0FXNpEg/slidebank+login.gif" alt="" /> */}
                 </div>
                 <div className="col"></div>
                 <div className="col-lg-12">

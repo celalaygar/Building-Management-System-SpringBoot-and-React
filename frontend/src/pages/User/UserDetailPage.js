@@ -34,8 +34,7 @@ const UserDetailPage = (props) => {
         loadUser();
     }, [username, inEditMode, editable])
 
-    const loadUser = async () => {
-        console.log(username)
+    const loadUser = async () => { 
         setNotFound(false)
         setEditable(false);
         if (reduxStore.username === username) {

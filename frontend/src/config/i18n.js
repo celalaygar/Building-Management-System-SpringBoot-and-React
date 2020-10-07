@@ -37,7 +37,16 @@ i18n.use(initReactI18next).init({
           'Delete My Account': 'Delete My Account',
           'Are you sure to delete your account?': 'Are you sure to delete your account?',
           "Building for":"Building for",
-          "Building":"Building"
+          "Building":"Building",
+          "Building Create Form":"Building Create Form",
+          "buildingName *":"Building Name *",
+          "buildingAdress *": "Building Adress *",
+          "city":"City",
+          "district":"District",
+          "quarter":"Quarter",
+          "street":"Street",
+          "buildingNo": "Building No",
+          "doorNo ":"Door No"
         }
       },
       tr: {
@@ -74,7 +83,16 @@ i18n.use(initReactI18next).init({
           'Delete My Account': 'Hesabımı Sil',
           'Are you sure to delete your account?': 'Hesabınızı silmek istediğinizden emin misiniz?',
           "Building for":"Binalar ve evler ",
-          "Building":"Daireler"
+          "Building":"Daireler",
+          "Building Create Form":"Bina Oluşturma Formu",
+          "buildingName *":"Bina Adı *",
+          "buildingAdress *": "Bina Adresi *",
+          "city":"İl",
+          "district":"İlçe",
+          "quarter":"Mahalle",
+          "street":"Sokak",
+          "buildingNo": "Bina No",
+          "doorNo ":"Kapı No"
         }
       }
     },

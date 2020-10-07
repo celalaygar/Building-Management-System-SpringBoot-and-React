@@ -72,7 +72,7 @@ const NavbarComponent = props =>{
             dropdownClassName +=" show";
         }
         if (image) {
-            imageSource = BACKEND_IMAGE_URL+image;
+            imageSource = image;
         }
         links = (
             <ul className="navbar-nav ml-auto">

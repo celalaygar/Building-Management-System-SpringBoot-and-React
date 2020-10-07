@@ -19,6 +19,7 @@ import com.example.demo.error.ApiError;
 import com.example.demo.error.NotFoundException;
 import com.example.demo.jwt.config.JwtTokenUtil;
 import com.example.demo.model.Building;
+import com.example.demo.model.BuildingAdress;
 import com.example.demo.model.User;
 import com.example.demo.repo.BuildingRepository;
 import com.example.demo.repo.UserRepository;
@@ -51,6 +52,8 @@ public class BuildingService {
 		User user = controlService.getUser(username);
 		building.setCreatedAt(new Date());
 		building.setCreatedUser(user);
+		BuildingAdress adress = building.getAdress();
+		adress.setBuilding(building);
 		building = buildingRepository.save(building);
 		return ResponseEntity.ok(building);
 	}
