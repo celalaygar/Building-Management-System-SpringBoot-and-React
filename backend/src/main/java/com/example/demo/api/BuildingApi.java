@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.BuildingDto;
+import com.example.demo.dto.UserDto;
 import com.example.demo.model.Building;
 import com.example.demo.service.BuildingService;
 import com.example.demo.util.ApiPaths;
@@ -29,9 +32,9 @@ public class BuildingApi {
 
 	private final BuildingService buildingService;
 
-	@GetMapping
-	public ResponseEntity<List<BuildingDto>> getAll() throws Exception {
-		return ResponseEntity.ok(buildingService.getAll());
+	@GetMapping("/buildings")
+	public ResponseEntity<Page<BuildingDto>> getAll(Pageable page) throws Exception {
+		return ResponseEntity.ok(buildingService.getAll(page));
 	}
 
 	@PostMapping("/{username}")

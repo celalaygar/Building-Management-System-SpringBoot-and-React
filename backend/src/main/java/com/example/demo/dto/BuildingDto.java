@@ -13,7 +13,9 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.example.demo.model.Building;
 import com.example.demo.model.BuildingAdress;
+import com.example.demo.model.User;
 
 import lombok.Data;
 import lombok.Getter;
@@ -28,4 +30,17 @@ public class BuildingDto {
     private String buildingAdress;
     private Date createdAt;
     private Date startDate;
+    private BuildingAdressDto adress;
+    private UserDto createdUser;
+    
+    public BuildingDto(Building building) {
+    	this.id=building.getId();
+    	this.buildingName = building.getBuildingName();
+    	this.buildingAdress = building.getBuildingAdress();
+    	this.createdAt = building.getCreatedAt();
+    	this.startDate = building.getStartDate();
+    	this.adress = new BuildingAdressDto(building.getAdress());
+    	this.createdUser = new UserDto(building.getCreatedUser());
+    	
+    }
 }
