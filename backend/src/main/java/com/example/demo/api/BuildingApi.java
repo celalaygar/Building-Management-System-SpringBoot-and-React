@@ -32,7 +32,7 @@ public class BuildingApi {
 
 	private final BuildingService buildingService;
 
-	@GetMapping("/buildings")
+	@GetMapping
 	public ResponseEntity<Page<BuildingDto>> getAll(Pageable page) throws Exception {
 		return ResponseEntity.ok(buildingService.getAll(page));
 	}

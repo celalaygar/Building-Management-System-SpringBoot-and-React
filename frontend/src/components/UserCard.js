@@ -1,7 +1,6 @@
 import defaultPicture from "../assets/profile.png"
 import React, { useEffect, useState } from 'react'
 import ProfileImage from "./ProfileImage";
-import { BACKEND_IMAGE_URL } from "../Shared/config";
 import Moment from "react-moment";
 
 const UserCard = (props) => {

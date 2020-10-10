@@ -12,6 +12,8 @@ i18n.use(initReactI18next).init({
           'Repeat Password *': 'Password Repeat *',
           "Name": 'Name',
           "Surname": 'Surname',
+          "Email": "E-mail",
+          "Born Date": "Born Date",
           Login: 'Login',
           Logout: 'Logout',
           HomePage: 'HomePage',
@@ -36,7 +38,7 @@ i18n.use(initReactI18next).init({
           'Are you sure to delete hoax?': 'Are you sure to delete hoax?',
           'Delete My Account': 'Delete My Account',
           'Are you sure to delete your account?': 'Are you sure to delete your account?',
-          "Building for":"Building for",
+          "Buildings":"Buildings",
           "Building":"Building",
           "Building Create Form":"Building Create Form",
           "buildingName *":"Building Name *",
@@ -46,7 +48,12 @@ i18n.use(initReactI18next).init({
           "quarter":"Quarter",
           "street":"Street",
           "buildingNo": "Building No",
-          "doorNo ":"Door No"
+          "doorNo ":"Door No",
+          "Address":"Address",
+          "Registered by":"Registered by",
+          "show":"Show",
+          "update":"Update",
+          "insert Flat":"insert Flat"
         }
       },
       tr: {
@@ -58,6 +65,8 @@ i18n.use(initReactI18next).init({
           'Repeat Password *': 'Şifreyi Tekrarla *',
           "Name": 'İsim',
           "Surname": 'Soyisim',
+          "Email": "E-mail",
+          "Born Date": "Doğum Tarihi",
           Login: 'Sisteme Gir',
           HomePage: 'Anasayfa',
           Logout: 'Çık',
@@ -82,7 +91,7 @@ i18n.use(initReactI18next).init({
           'Are you sure to delete hoax?': `Hoax'u silmek istedğinizden emin misiniz?`,
           'Delete My Account': 'Hesabımı Sil',
           'Are you sure to delete your account?': 'Hesabınızı silmek istediğinizden emin misiniz?',
-          "Building for":"Binalar ve evler ",
+          "Buildings":"Binalar ",
           "Building":"Daireler",
           "Building Create Form":"Bina Oluşturma Formu",
           "buildingName *":"Bina Adı *",
@@ -92,7 +101,12 @@ i18n.use(initReactI18next).init({
           "quarter":"Mahalle",
           "street":"Sokak",
           "buildingNo": "Bina No",
-          "doorNo ":"Kapı No"
+          "doorNo ":"Kapı No",
+          "Address":"Adres",
+          "Registered by":"Kayıt Yapan",
+          "show":"Göster",
+          "update":"Güncelle",
+          "insert Flat":"Daire Ekle"
         }
       }
     },
