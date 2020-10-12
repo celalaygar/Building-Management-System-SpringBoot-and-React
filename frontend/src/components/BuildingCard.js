@@ -2,10 +2,24 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import Moment from 'react-moment';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const BuildingCard = (props) => {
 
     const { t } = useTranslation();
+    
+    const reduxStore = useSelector((store) => {
+        return {
+            isLoggedIn: store.isLoggedIn,
+            username: store.username,
+            email: store.email,
+            jwttoken: store.jwttoken,
+            password: store.password,
+            image: store.image
+        };
+    })
+
     const { building } = props;
     return (
         <div className="card mt-1" >
@@ -41,7 +55,7 @@ const BuildingCard = (props) => {
             <div className="card-body">
                 <a className="btn btn-sm btn-secondary" >{t("insert Flat")}</a>
                 <a className="btn btn-sm btn-success" >{t("show")}</a>
-                <a className="btn btn-sm btn-info" >{t("update")}</a>
+                <Link  to={'/update-building/'+building.id} className="btn btn-sm btn-info" >{t("update")}</Link>
             </div>
         </div>
     )

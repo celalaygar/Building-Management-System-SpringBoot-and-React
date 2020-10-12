@@ -1,6 +1,7 @@
 import ApiService from "./BaseService/ApiService";
 
-const BUILDING_URL  = '/building'
+const BUILDING_URL  = '/building';
+const GET_BY_ID_URL  = '/get-by-id/'
 class BuildingService {
     
     getBuilding(page, size){ 
@@ -9,13 +10,16 @@ class BuildingService {
     }
 
     get(url) { 
-        return ApiService.get(BUILDING_URL+"/"+url)
+        return ApiService.get(BUILDING_URL+GET_BY_ID_URL+url)
     }
     // getUserByUsername(username){
     //     return ApiService.get(USER_URL+'/'+username)
     // }
     post(username, data) { 
         return ApiService.post(BUILDING_URL+"/"+username,data)
+    }
+    update(id, data) { 
+        return ApiService.put(BUILDING_URL+"/"+id,data)
     }
     // update(username,body) { 
     //     return ApiService.put(USER_URL+"/"+username,body)

@@ -12,6 +12,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.example.demo.model.Building;
 import com.example.demo.model.BuildingAdress;
@@ -26,13 +29,21 @@ import lombok.Setter;
 @Setter
 public class BuildingDto {
     private Long id;
+	@NotEmpty
+	@NotNull
+	@Size(min = 5, max = 1000)
     private String buildingName;
+	@NotEmpty
+	@NotNull
+	@Size(min = 5, max = 1000)
     private String buildingAdress;
     private Date createdAt;
     private Date startDate;
     private BuildingAdressDto adress;
     private UserDto createdUser;
-    
+    public BuildingDto() {
+		// TODO Auto-generated constructor stub
+	}
     public BuildingDto(Building building) {
     	this.id=building.getId();
     	this.buildingName = building.getBuildingName();

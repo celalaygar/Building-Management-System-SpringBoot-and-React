@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import ApiService from './Services/BaseService/ApiService';
 import UsersPage from './pages/User/UsersPage';
 import BuildingComponent from './pages/Building/BuildingComponent';
+import UpdateBuilding from './pages/Building/UpdateBuilding';
 
 class App extends Component {
 
@@ -82,7 +83,8 @@ class App extends Component {
           <AuthenticatedRoute exact path="/index" component={HomeComponent} isLoggedIn={isLoggedIn} />
           <AuthenticatedRoute path="/user/:username" component={UserDetailPage} isLoggedIn={isLoggedIn} />
           <AuthenticatedRoute exact path="/users" component={UsersPage} isLoggedIn={isLoggedIn} />
-          <AuthenticatedRoute path="/building/:username" component={BuildingComponent} isLoggedIn={isLoggedIn} />
+          <AuthenticatedRoute path="/building/:username" component={BuildingComponent} isLoggedIn={isLoggedIn}/>
+          <AuthenticatedRoute path="/update-building/:buildingid" component={UpdateBuilding} isLoggedIn={isLoggedIn}/>
           
           <Redirect to="/index" />
         </Switch>
@@ -93,7 +95,6 @@ class App extends Component {
         <div className="row">
 
           <div className="col-sm-12">
-          </div>
           <BrowserRouter>
             <NavbarComponent
               // isLoggedin={isLoggedin}
@@ -104,6 +105,8 @@ class App extends Component {
             <LanguageSelector />
             {links}
           </BrowserRouter>
+          <hr/><hr/><hr/><hr/><hr/><hr/>
+          </div>
           
 
           {/* <UserSignupPage /> */}

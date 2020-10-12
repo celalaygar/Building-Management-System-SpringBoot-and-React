@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,7 +43,7 @@ public class BuildingAdress {
     private String buildingNo;
     private String image;
     //private String buildingId;
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false,cascade = {CascadeType.ALL})
     @JoinColumn(name = "building_id", nullable = false)
     private Building building;
 }

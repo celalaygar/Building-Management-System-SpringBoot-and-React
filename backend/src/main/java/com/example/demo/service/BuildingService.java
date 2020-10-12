@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -38,21 +39,21 @@ public class BuildingService {
 	private final JwtTokenUtil tokenUtil;
 	private final UserRepository userRepository;
 	private final ControlService controlService;
-	
-	public Page<BuildingDto> getAll(Pageable page) throws Exception{
-		
+
+	public Page<BuildingDto> getAll(Pageable page) throws Exception {
+
 		Page<BuildingDto> pageDto = null;
 		Page<Building> pageBuilding = buildingRepository.findAll(page);
-		pageDto = pageBuilding.map(BuildingDto::new); 
+		pageDto = pageBuilding.map(BuildingDto::new);
 		return pageDto;
 	}
-	
+
 	@Transactional
-	public ResponseEntity<?> save(String authHeader, String username, @Valid Building building) throws Exception{
+	public ResponseEntity<?> save(String authHeader, String username, @Valid Building building) throws Exception {
 		String authUserName = controlService.getUsernameFromToken(authHeader);
-		if(authUserName == null || !authUserName.equals(username)){
+		if (authUserName == null || !authUserName.equals(username)) {
 			logger.error("User Names cannot match");
-			ApiError error = new ApiError(403, "User Names cannot match", "api/user/"+authHeader);
+			ApiError error = new ApiError(403, "User Names cannot match", "api/user/" + authHeader);
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
 		}
 		User user = controlService.getUser(username);
@@ -63,7 +64,61 @@ public class BuildingService {
 		building = buildingRepository.save(building);
 		return ResponseEntity.ok(building);
 	}
-	
+
+//	public ResponseEntity<?> updateBuilding(String authHeader, String username, @Valid BuildingDto dto)
+//			throws javassist.NotFoundException {
+//
+//		String authUserName = controlService.getUsernameFromToken(authHeader);
+//		if (authUserName == null || !authUserName.equals(username)) {
+//			logger.error("User Names cannot match");
+//			ApiError error = new ApiError(403, "User Names cannot match", "api/user/" + authHeader);
+//			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+//		}
+//		User user = controlService.getUser(username);
+//		Building building = buildingRepository.getOne(dto.getId());
+//
+//		building.setBuildingAdress(dto.getBuildingAdress());
+//		building.setBuildingName(dto.getBuildingName());
+//		building.setCreatedUser(user);
+//
+//		BuildingAdress adress = mapper.map(dto.getAdress(), BuildingAdress.class);
+//		adress.setBuilding(building);
+//
+//		building = buildingRepository.save(building);
+//		return ResponseEntity.ok(building);
+//	}
+
+	public BuildingDto getById(String authHeader, Long buildingid) throws javassist.NotFoundException {
+		Optional<Building> building = buildingRepository.findById(buildingid);
+		if(!building.isPresent()) {
+			throw new javassist.NotFoundException("there is no building with id : "+buildingid);
+		}
+		BuildingDto dto = mapper.map(building.get(), BuildingDto.class);
+		return dto;
+	}
+
+	public ResponseEntity<?> update(String authHeader, Long buildingid, @Valid BuildingDto dto) throws Exception {
+		String authUserName = controlService.getUsernameFromToken(authHeader);
+		if (authUserName == null ) {
+			logger.error("User Names cannot match");
+			ApiError error = new ApiError(403, "User Names cannot match", "api/user/" + authHeader);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
+		}
+		User user = controlService.getUser(authUserName);
+		Optional<Building> opt= buildingRepository.findById(buildingid);
+		if(!opt.isPresent()) {
+			throw new javassist.NotFoundException("there is no building with id : "+buildingid);
+		}
+		Building building = mapper.map(dto, Building.class);
+		building.getAdress().setId(opt.get().getAdress().getId());
+		building.getAdress().setBuilding(building);
+		building.setCreatedUser(user);
+		building= buildingRepository.save(building);
+		
+		dto = mapper.map(building, BuildingDto.class);
+		return  ResponseEntity.ok(dto);
+	}
+
 //	private String getUsernameFromToken(String authHeader) {
 //		String TOKEN_PREFIX = "Bearer ";
 //		 
