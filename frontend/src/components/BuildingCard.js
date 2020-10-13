@@ -63,7 +63,7 @@ const BuildingCard = (props) => {
 
             <div className="card-body">
                 <a className="btn btn-sm btn-secondary" >{t("insert Flat")}</a>
-                {/* <a className="btn btn-sm btn-success" >{t("show")}</a> */}
+                {/*     <a className="btn btn-sm btn-success" >{t("show")}</a> */}
                 <Link to={'/update-building/' + buildingId} className="btn btn-sm btn-info" >{t("update")}</Link>
             </div>
         </div>

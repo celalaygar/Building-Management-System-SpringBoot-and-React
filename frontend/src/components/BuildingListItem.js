@@ -26,15 +26,15 @@ const BuildingListItem = (props) => {
     const { city, district } = adress;
     return (
         <div className="card mt-2" >
-            <div className="row">
+            <div className="card ">
+                <h5 className="card-header">{t("Building Name")} : {buildingName}</h5>
 
+                <ul className="list-group list-group-flush">
+                    <li className="list-group-item">{t("Building Adress")} : {buildingAdress}</li>
+                </ul>
                 <div className="card-body">
-                    <h5 className="card-title">{t("Building Name")} : {buildingName}</h5>
-                    <p className="card-text">{t("Building Adress")} : {buildingAdress}</p>
-                </div>
-                <div className="card-body float-right">
                     <a className="btn btn-sm btn-secondary" >{t("insert Flat")}</a>
-                    <Link to={'/building-card/'+buildingId} className="btn btn-sm btn-success" >{t("show")}</Link>
+                    <Link to={'/building-card/' + buildingId} className="btn btn-sm btn-success" >{t("show")}</Link>
                     <Link to={'/update-building/' + buildingId} className="btn btn-sm btn-info" >{t("update")}</Link>
                 </div>
             </div>

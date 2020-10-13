@@ -97,7 +97,7 @@ import defaultPicture from './../../assets/profile.png';
             this.loadBuilding(this.props.match.params.buildingid);
 
             AlertifyService.alert("Kayıt işlemi Başarılı");
-            this.props.history.push("/building/"+this.props.username);
+            this.props.history.push("/building-card/"+this.props.match.params.buildingid);
 
         } catch (error) {
             if (error.response) {

@@ -87,6 +87,7 @@ class UsersPage extends Component {
                     <thead>
                         <tr>
                         <th scope="col">id</th>
+                        <th scope="col">username</th>
                         <th scope="col">Name</th>
                         <th scope="col">Surname</th>
                         <th scope="col">Email</th>

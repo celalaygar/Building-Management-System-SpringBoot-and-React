@@ -67,7 +67,8 @@ import BuildingService from '../../Services/BuildingService';
                 <BuildingCard  
                     id={id}
                     buildingName={buildingName} 
-                    buildingName={buildingAdress} 
+                    buildingName={buildingName} 
+                    buildingAdress={buildingAdress} 
                     createdUser={createdUser}  
                     adress={adress} />
             </div>

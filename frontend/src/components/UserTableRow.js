@@ -16,11 +16,12 @@ const  UserTableRow = (props)=> {
                     <ProfileImage
                         width="32px"
                         height="32px"
-                        imageSource={image ? BACKEND_IMAGE_URL + image : defaultPicture}
+                        imageSource={image ?  image : defaultPicture}
                         // newimage={props.newImage}
                         username={username}
                     />
                 </td>
+                <td>{username}</td>
                 <td>{name}</td>
                 <td>{surname}</td>
                 <td>{email}</td>
