@@ -13,7 +13,10 @@ i18n.use(initReactI18next).init({
           "Name": 'Name',
           "Surname": 'Surname',
           "Email": "E-mail",
+          "Username":"Username",
           "Born Date": "Born Date",
+          "Building Name":"Building Name",
+          "Building Adress":"Building Adress",
           Login: 'Login',
           Logout: 'Logout',
           HomePage: 'HomePage',
@@ -66,6 +69,7 @@ i18n.use(initReactI18next).init({
           "Name": 'İsim',
           "Surname": 'Soyisim',
           "Email": "E-mail",
+          "Username": "Kullanıcı Adı",
           "Born Date": "Doğum Tarihi",
           Login: 'Sisteme Gir',
           HomePage: 'Anasayfa',
@@ -106,7 +110,9 @@ i18n.use(initReactI18next).init({
           "Registered by":"Kayıt Yapan",
           "show":"Göster",
           "update":"Güncelle",
-          "insert Flat":"Daire Ekle"
+          "insert Flat":"Daire Ekle",
+          "Building Name":"Bina Adı",
+          "Building Adress":"Bina Adresi",
         }
       }
     },

@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
 import BuildingCard from '../../components/BuildingCard';
+import BuildingListItem from '../../components/BuildingListItem';
 import AlertifyService from '../../Services/AlertifyService';
 import BuildingService from '../../Services/BuildingService';
 
@@ -82,7 +83,8 @@ class BuildingComponent extends Component {
                 </div>
                 <div className="list-group-flush">
                     {buildings.map((building, index) =>
-                        <BuildingCard  key={building.id} building={building} />
+                        <BuildingListItem key={building.id} building={building} />
+                        // <BuildingCard  key={building.id} building={building} />
                     )  }
                 </div>
                 <div>
