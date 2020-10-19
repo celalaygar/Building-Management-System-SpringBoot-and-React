@@ -28,7 +28,6 @@ import lombok.Setter;
 @Table(name = "owner")
 public class Owner {
 	@Id
-	@Column(name = "id")
 	@SequenceGenerator(name = "seq_owner", initialValue = 1, allocationSize = 1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_owner")
 	private Long id;
@@ -37,9 +36,9 @@ public class Owner {
 	@Column(name = "surname", unique = true, length = 5000)
 	private String surname;
 	private Date bornDate;
-	@Column(name = "tcNo", unique = true,length = 11)
+	@Column(name = "tcNo", unique = true)
 	private String tcNo;
 	
     @OneToOne(mappedBy = "owner")
-	private Apartment apartment;
+	private Flat apartment;
 }

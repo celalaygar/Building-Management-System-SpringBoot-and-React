@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import Input from '../../components/input';
-import { withTranslation } from 'react-i18next'; 
+import { withTranslation } from 'react-i18next';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { /*loginAction,*/ loginHandler } from './../../redux/AuthenticationAction';
+import Spinner from '../../components/Spinner';
+import Axios from 'axios';
 
 class UserLoginPage extends Component {
     constructor(props) {
@@ -14,11 +16,23 @@ class UserLoginPage extends Component {
             password: '',
             error: null,
             errors: {
-            }
-        }; 
-    }
-    componentDidMount(){
+            },
+            pendingApiCall: false
 
+        };
+    }
+    componentDidMount() {
+        Axios.interceptors.request.use(request => {
+            this.setState({ pendingApiCall: true })
+            return request;
+        });
+        Axios.interceptors.response.use(request => {
+            this.setState({ pendingApiCall: false })
+            return request;
+        }, error => {
+            this.setState({ pendingApiCall: false })
+            throw error;
+        });
     }
     onChangeData = (type, event) => {
         if (this.state.error)
@@ -29,6 +43,8 @@ class UserLoginPage extends Component {
         this.setState({ stateData });
     }
     onClickLogin = async (event) => {
+        //this.setState({ pendingApiCall: true })
+
         event.preventDefault();
         if (this.state.error) {
             this.setState({ error: null });
@@ -36,7 +52,7 @@ class UserLoginPage extends Component {
         const { dispatch, history } = this.props;
         const { username, password } = this.state;
         const creds = { username, password };
-        
+
         try {
             await dispatch(loginHandler(creds));
             history.push("/index");
@@ -52,6 +68,8 @@ class UserLoginPage extends Component {
             else
                 console.log(error.message);
         }
+        //this.setState({ pendingApiCall: false })
+
     }
     render() {
         const { username, password } = this.state.errors;
@@ -82,24 +100,28 @@ class UserLoginPage extends Component {
                             valueName={this.state.password}
                             onChangeData={this.onChangeData}
                         />
-                        <button
-                            className="btn btn-primary"
-                            type="button"
-                            disabled={!btnEnable}
-                            onClick={this.onClickLogin}>{t('Login')}</button>
+                        {
+                            this.state.pendingApiCall ? <Spinner /> :
+                                <button
+                                    className="btn btn-primary"
+                                    type="button"
+                                    disabled={!btnEnable}
+                                    onClick={this.onClickLogin}>{t('Login')}</button>
+                        }
+
                     </form>
                     <br />
                     {this.state.error &&
                         <div className="alert alert-danger" role="alert">
                             {this.state.error}
                         </div>
-                        
+
 
                     }
                 </div>
                 <div className="col-lg-3">
                     <img style={{ height: 200 }} src="https://lovegospelmusic.com/wp-content/uploads/2020/07/Lovemusic-Income-Program-Login-Page.png" alt="" />
-                
+
                     {/* <img style={{ height: 200 }} src="https://images.squarespace-cdn.com/content/v1/55e06d0ee4b0718764fcc921/1507805805238-M8XG4RMCMWITZ7LJGEEF/ke17ZwdGBToddI8pDm48kETUuxmp5xHjxR_mq0kKQipZw-zPPgdn4jUwVcJE1ZvWhcwhEtWJXoshNdA9f1qD7XbdY2v8mR--EcMEe2KaFSVzNBu9Qs0q6qR3QzqKFtHJVM6oy5K0EEbGe9v0FXNpEg/slidebank+login.gif" alt="" /> */}
                 </div>
                 <div className="col"></div>

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { withTranslation } from 'react-i18next';
 import { connect } from 'react-redux';
+import { logoutAction } from '../redux/AuthenticationAction';
 import AlertifyService from '../Services/AlertifyService';
 import UserService from '../Services/UserService';
 import UserListItem from './UserListItem';
@@ -33,17 +34,22 @@ class UserList extends Component {
             });
         } catch(error) {
             if (error.response) {
-                //console.log(error.response.data.message);
-                console.log(error.response.data.message);
+                console.log(error.response);
+                // console.log(error.response.data.status);
+                if(error.response.data.status === 401){
+                    this.props.dispatch(logoutAction());
+                    console.log("logout")
+                }
                 AlertifyService.alert(error.response.data.message);
             }
             else if (error.request) {
                 console.log(error.request);
-                AlertifyService.alert(error.request);
+                //AlertifyService.alert(error.request);
             }
             else {
                 console.log(error.message);
-                AlertifyService.alert(error.message);
+                this.props.dispatch(logoutAction());
+                //AlertifyService.alert(error.message);
             }
         };
         

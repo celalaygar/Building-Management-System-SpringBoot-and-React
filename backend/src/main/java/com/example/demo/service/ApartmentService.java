@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.ApartmentDto;
 import com.example.demo.dto.BuildingDto;
 import com.example.demo.jwt.config.JwtTokenUtil;
-import com.example.demo.model.Apartment;
+import com.example.demo.model.Flat;
 import com.example.demo.model.Building;
 import com.example.demo.repo.ApartmentRepository;
 import com.example.demo.repo.BuildingRepository;
@@ -30,7 +30,7 @@ public class ApartmentService {
 	
 	
 	public List<ApartmentDto> getAll() throws Exception{
-		List<Apartment> entityList = apartmentRepository.findAll();
+		List<Flat> entityList = apartmentRepository.findAll();
 		ApartmentDto [] dtoArrays = mapper.map(entityList, ApartmentDto[].class);
 		return Arrays.asList(dtoArrays);
 	}

@@ -11,7 +11,7 @@ import com.example.demo.dto.ApartmentDto;
 import com.example.demo.dto.BuildingDto;
 import com.example.demo.dto.OwnerDto;
 import com.example.demo.jwt.config.JwtTokenUtil;
-import com.example.demo.model.Apartment;
+import com.example.demo.model.Flat;
 import com.example.demo.model.Building;
 import com.example.demo.model.Owner;
 import com.example.demo.repo.ApartmentRepository;

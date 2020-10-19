@@ -7,6 +7,9 @@ import defaultPicture from "../assets/profile.png"
 import ProfileImage from './ProfileImage';
 import BuildingService from '../Services/BuildingService';
 import AlertifyService from '../Services/AlertifyService';
+import Spinner from './Spinner';
+import Axios from 'axios';
+import { ApiProgress } from '../config/ApiProgress';
 
 class BuildingSubmit extends Component {
 
@@ -23,11 +26,33 @@ class BuildingSubmit extends Component {
             buildingNo: '',
             createdAt: new Date(),
             errors: {
-            }
+            },
+            pendingApiCall:false
         };
         this.onChangeData = this.onChangeData.bind(this);
     }
+    componentDidMount() {
+        //const pendingApiCall = Interceptor('post', 'http://localhost:8501/api/building/celal1c');
+        // this.setState({ pendingApiCall: pendingApiCall ? true : false })
 
+        Axios.interceptors.request.use(request => {
+            this.setState({ pendingApiCall: true })
+            const { url, method } = request;
+            console.log("request : "+url)
+            console.log("request : "+method)
+            return request;
+        });
+        Axios.interceptors.response.use(response => {
+            this.setState({ pendingApiCall: false })
+            const { url, method } = response.config;
+            console.log("response : "+url)
+            console.log("response : "+method)
+            return response;
+        }, error => {
+            this.setState({ pendingApiCall: false })
+            throw error;
+        });
+    }
     onChangeData = (type, event) => {
         const stateData = this.state;
         stateData[type] = event
@@ -51,8 +76,6 @@ class BuildingSubmit extends Component {
             };
         //const { dispatch, history } = this.props;
         console.log(body)
-
-
         try {
             const response = await BuildingService.post(this.props.username,body);
             console.log(response);
@@ -83,7 +106,6 @@ class BuildingSubmit extends Component {
             else
                 console.log(error.message);
         }
- 
     }
     render() {
         let imageSource = defaultPicture;
@@ -176,30 +198,16 @@ class BuildingSubmit extends Component {
                         valueName={this.state.buildingNo}
                         onChangeData={this.onChangeData}
                     />
-
-                    {/* <div className="form-group">
-                        <label>Born Date *</label>
-                        <div className="form-group">
-                            <DatePicker
-                                className="form-control"
-                                // showTimeSelect
-                                showTimeInput
-                                selected={this.state.bornDate}
-                                onChange={e => this.onChangeData('bornDate', e)}
-                                filterDate={isWeekday}          // disable weekend
-                                timeIntervals={15}              // time range around 15 min
-                                //showWeekNumbers               // show week number
-                                timeFormat="HH:mm"              // show time format
-                                dateFormat="yyyy/MM/dd h:mm aa" // show all of time format
-                            />
-                        </div>
-                    </div> */}
                     <div className="float-right">
-
-                    <button
-                        className="btn btn-primary "
-                        type="button"
-                        onClick={this.saveBuilding}>{t('Sign Up')}</button>
+                        {
+                            this.state.pendingApiCall ? <Spinner /> : 
+                            <button
+                            className="btn btn-primary "
+                            type="button"
+                            disabled={this.state.pendingApiCall}
+                            onClick={this.saveBuilding}>{t('Sign Up')}</button>
+                        }
+                    
                     </div>
                 </form>
             </div>

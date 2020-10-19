@@ -74,7 +74,7 @@ public class Building {
 	private User createdUser;
 	
 	@OneToMany(mappedBy = "building")
-    @Valid private List<Apartment> apartments;
+    @Valid private List<Flat> apartments;
 	
 //    @Column(name = "alim_zamani", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 //    @Temporal(TemporalType.TIMESTAMP)
